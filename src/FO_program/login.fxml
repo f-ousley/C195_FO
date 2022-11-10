@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <VBox layoutX="77.0" layoutY="103.0" prefHeight="99.0" prefWidth="100.0" spacing="30.0">
+            <children>
+                <TextField fx:id="UsernameField" text="Username" />
+                <TextField fx:id="PasswordField" layoutX="10.0" layoutY="10.0" text="Password" />
+            </children>
+        </VBox>
+        <Button fx:id="LoginButton" layoutX="97.0" layoutY="218.0" mnemonicParsing="false" prefWidth="60.0" text="Login" />
+        <Label fx:id="LoginRegionLabel" layoutX="67.0" layoutY="28.0" prefWidth="120.0" text="            Region" />
+    </children>
+</AnchorPane>

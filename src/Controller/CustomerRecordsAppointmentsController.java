@@ -41,9 +41,21 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage.show();
     }
 
-    public void OnActionAddAppointment(ActionEvent actionEvent) {
+    public void OnActionAddAppointment(ActionEvent actionEvent) throws IOException {
+
+        stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View/AddAppointment.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.setTitle("Add Appointment");
+        stage.show();
     }
 
-    public void OnActionUpdateAppointment(ActionEvent actionEvent) {
+    public void OnActionUpdateAppointment(ActionEvent actionEvent) throws IOException {
+
+        stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View/UpdateAppointment.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.setTitle("Update Appointment");
+        stage.show();
     }
 }

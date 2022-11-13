@@ -5,7 +5,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.UpdateCustomerController">
     <children>
-        <VBox layoutX="178.0" layoutY="75.0" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+        <VBox layoutX="177.0" layoutY="41.0" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
             <children>
                 <TextField />
                 <TextField layoutX="10.0" layoutY="10.0" />
@@ -13,16 +13,18 @@
                 <TextField layoutX="10.0" layoutY="60.0" />
                 <TextField layoutX="10.0" layoutY="85.0" />
                 <ComboBox prefWidth="150.0" />
+                <ComboBox layoutX="10.0" layoutY="235.0" prefWidth="150.0" />
             </children>
         </VBox>
-        <VBox layoutX="88.0" layoutY="74.0" prefHeight="252.0" prefWidth="81.0" spacing="30.0">
+        <VBox layoutX="89.0" layoutY="39.0" prefHeight="252.0" prefWidth="81.0" spacing="30.0">
             <children>
                 <Label text="ID" />
                 <Label layoutX="10.0" layoutY="10.0" text="Name" />
                 <Label layoutX="10.0" layoutY="27.0" text="Address" />
                 <Label layoutX="10.0" layoutY="44.0" text="Postal Code" />
                 <Label layoutX="10.0" layoutY="61.0" text="Phone" />
-                <Label layoutX="10.0" layoutY="78.0" text="Division" />
+                <Label layoutX="10.0" layoutY="78.0" text="Country" />
+                <Label layoutX="10.0" layoutY="245.0" text="State/Province" />
             </children>
         </VBox>
         <HBox layoutX="14.0" layoutY="343.0" prefHeight="43.0" prefWidth="187.0" spacing="10.0">

@@ -3,40 +3,55 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="460.0" prefWidth="815.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CustomerRecordsAppointmentsController">
+<AnchorPane prefHeight="207.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CustomerRecordsAppointmentsController">
    <children>
-      <HBox layoutX="151.0" layoutY="213.0" prefHeight="34.0" prefWidth="200.0" spacing="10.0">
+      <HBox layoutX="151.0" layoutY="179.0" prefHeight="34.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" prefWidth="55.0" text="Add" />
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Update" />
-            <Button layoutX="62.0" layoutY="10.0" mnemonicParsing="false" prefWidth="55.0" text="Delete" />
+            <Button fx:id="AddCustomerButton" mnemonicParsing="false" onAction="#OnActionAddCustomer" prefWidth="55.0" text="Add" />
+            <Button fx:id="UpdateCustomerButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionUpdateCustomer" text="Update" />
+            <Button fx:id="DeleteCustomerButton" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" prefWidth="55.0" text="Delete" />
          </children>
       </HBox>
       <HBox layoutX="151.0" layoutY="376.0" prefHeight="34.0" prefWidth="200.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" prefWidth="55.0" text="Add" />
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Update" />
-            <Button layoutX="62.0" layoutY="10.0" mnemonicParsing="false" prefWidth="55.0" text="Delete" />
+            <Button fx:id="AddAppointmentButton" mnemonicParsing="false" onAction="#OnActionAddAppointment" prefWidth="55.0" text="Add" />
+            <Button fx:id="UpdateAppointmentButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionUpdateAppointment" text="Update" />
+            <Button fx:id="DeleteAppointmentButton" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" prefWidth="55.0" text="Delete" />
          </children>
       </HBox>
-      <TableView fx:id="ReccordsTableView" layoutX="151.0" layoutY="90.0" prefHeight="123.0" prefWidth="590.0">
+      <TableView fx:id="CustomerTableView" layoutX="151.0" layoutY="56.0" prefHeight="123.0" prefWidth="447.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="CustomerIDColumn" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="CustomerNameColumn" prefWidth="75.0" text="Name" />
+            <TableColumn fx:id="CustomerAddressColumn" prefWidth="75.0" text="Address" />
+            <TableColumn fx:id="CustomerPostalCodeColumn" prefWidth="75.0" text="Postal Code" />
+            <TableColumn fx:id="CustomerPhoneColumn" prefWidth="75.0" text="Phone" />
+            <TableColumn fx:id="CustomerStateColumn" prefWidth="75.0" text="State" />
         </columns>
       </TableView>
-      <TableView fx:id="AppointmentsTableView" layoutX="151.0" layoutY="253.0" prefHeight="123.0" prefWidth="590.0">
+      <TableView fx:id="AppointmentsTableView" layoutX="151.0" layoutY="253.0" prefHeight="123.0" prefWidth="749.0">
          <columns>
-            <TableColumn prefWidth="75.0" text="C1" />
-            <TableColumn prefWidth="75.0" text="C2" />
+            <TableColumn fx:id="AppointmentsIDColumn" prefWidth="75.0" text="ID" />
+            <TableColumn fx:id="AppointmentsTitleColumn" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="AppointmentDescriptionColumn" prefWidth="75.0" text="Description" />
+            <TableColumn fx:id="AppointmentLocationColumn" prefWidth="75.0" text="Location" />
+            <TableColumn fx:id="AppointmentsContactColumn" prefWidth="75.0" text="Contact" />
+            <TableColumn fx:id="AppointmentsTypeColumn" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="AppointmentsStartColumn" prefWidth="75.0" text="Start" />
+            <TableColumn fx:id="AppointmentsEndColumn" prefWidth="75.0" text="End" />
+            <TableColumn fx:id="AppointmentsCustomerIDColumn" prefWidth="75.0" text="Customer ID" />
+            <TableColumn fx:id="AppointmentsUserIDColumn" prefWidth="75.0" text="User ID" />
          </columns>
       </TableView>
-      <Label layoutX="665.0" layoutY="73.0" text="Reccords" />
-      <Label layoutX="665.0" layoutY="239.0" text="Appointments" />
-      <HBox layoutX="382.0" layoutY="385.0" prefHeight="42.0" prefWidth="200.0" spacing="20.0">
+      <Label layoutX="151.0" layoutY="32.0" text="Customer Reccord" />
+      <Label layoutX="151.0" layoutY="224.0" text="Appointments" />
+      <HBox layoutX="557.0" layoutY="232.0" prefHeight="17.0" prefWidth="200.0" spacing="20.0">
          <children>
-            <RadioButton mnemonicParsing="false" text="Month" />
-            <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Week" />
+            <RadioButton fx:id="AppointmentMonthRadio" mnemonicParsing="false" text="Month">
+               <toggleGroup>
+                  <ToggleGroup fx:id="MonthWeekTG" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="AppointmentWeekRadio" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Week" toggleGroup="$MonthWeekTG" />
          </children>
       </HBox>
    </children>

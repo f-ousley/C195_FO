@@ -12,7 +12,7 @@
                 <TextField fx:id="PasswordField" layoutX="10.0" layoutY="10.0" text="Password" />
             </children>
         </VBox>
-        <Button fx:id="LoginButton" layoutX="97.0" layoutY="218.0" mnemonicParsing="false" prefWidth="60.0" text="Login" />
+        <Button fx:id="LoginButton" layoutX="97.0" layoutY="218.0" mnemonicParsing="false" onAction="#OnActionLogin" prefWidth="60.0" text="Login" />
         <Label fx:id="LoginRegionLabel" alignment="TOP_CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="38.0" layoutY="14.0" prefHeight="27.0" prefWidth="175.0">
          <font>
             <Font name="System Bold" size="18.0" />

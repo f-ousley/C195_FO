@@ -20,7 +20,6 @@ public class Main extends Application {
         primaryStage.setTitle("Login");
         primaryStage.setScene(new Scene(root, 250, 300));
         primaryStage.show();
-
         JDBC.openConnection();
     }
 

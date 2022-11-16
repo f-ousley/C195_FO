@@ -18,7 +18,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../View/Login.fxml"));
         primaryStage.setTitle("Login");
-        primaryStage.setScene(new Scene(root, 250, 300));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
         JDBC.openConnection();
     }

@@ -1,4 +1,4 @@
-package Model.Controller;
+package Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

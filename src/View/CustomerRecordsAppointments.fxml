@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="419.0" prefWidth="1242.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Model.Controller.CustomerRecordsAppointmentsController">
+<AnchorPane prefHeight="419.0" prefWidth="1242.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CustomerRecordsAppointmentsController">
    <children>
       <HBox layoutX="14.0" layoutY="179.0" prefHeight="34.0" prefWidth="200.0" spacing="10.0">
          <children>
@@ -35,7 +35,7 @@
       </TableView>
       <TableView fx:id="AppointmentsTableView" layoutX="14.0" layoutY="253.0" prefHeight="123.0" prefWidth="1171.0">
          <columns>
-            <TableColumn fx:id="AppointmnetAppointmentIDColumn" prefWidth="103.0" text="Appointment_ID" />
+            <TableColumn fx:id="AppointmentIDColumn" prefWidth="103.0" text="Appointment_ID" />
             <TableColumn fx:id="AppointmentTitleColumn" prefWidth="82.0" text="Title" />
             <TableColumn fx:id="AppointmentDescriptionColumn" prefWidth="82.0" text="Description" />
             <TableColumn fx:id="AppointmentLocationColumn" prefWidth="82.0" text="Location" />

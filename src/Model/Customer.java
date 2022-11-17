@@ -14,7 +14,7 @@ public class Customer {
     private String last_updated_By;
     private String division_Id;
 
-    public Customer(Integer customer_id, String customer_name, String address, String postal_code, String phone, java.sql.Date create_date, String created_by, java.sql.Date last_update, String last_updated_by, String division_id) {
+    public Customer(int customer_id, String customer_name, String address, String postal_code, String phone, java.sql.Date create_date, String created_by, java.sql.Date last_update, String last_updated_by, String division_id) {
         this.customer_ID = customer_id;
         this.customer_Name = customer_name;
         this.address = address;

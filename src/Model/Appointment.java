@@ -38,6 +38,7 @@ public class Appointment {
         User_Id = user_id;
         Contact_Id = contact_id;
     }
+    public Appointment(){}
 
     public String getAppointment_ID() {
         return Appointment_ID;

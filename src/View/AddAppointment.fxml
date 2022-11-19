@@ -7,18 +7,18 @@
    <children>
       <VBox layoutX="290.0" layoutY="47.0" prefHeight="346.0" prefWidth="100.0" spacing="15.0">
          <children>
-            <TextField />
-            <TextField layoutX="10.0" layoutY="10.0" />
-            <TextField layoutX="10.0" layoutY="35.0" />
-            <TextField layoutX="10.0" layoutY="60.0" />
-            <TextField layoutX="10.0" layoutY="85.0" />
-            <TextField layoutX="10.0" layoutY="110.0" />
-            <TextField layoutX="10.0" layoutY="135.0" />
-            <ComboBox prefWidth="150.0" />
-            <DatePicker />
-            <ComboBox prefWidth="150.0" />
-            <DatePicker />
-            <TextField layoutX="10.0" layoutY="160.0" />
+            <TextField fx:id="IDField" />
+            <TextField fx:id="TitleField" layoutX="10.0" layoutY="10.0" />
+            <TextField fx:id="DescriptionField" layoutX="10.0" layoutY="35.0" />
+            <TextField fx:id="LocationField" layoutX="10.0" layoutY="60.0" />
+            <TextField fx:id="ContactField" layoutX="10.0" layoutY="85.0" />
+            <TextField fx:id="TypeField" layoutX="10.0" layoutY="110.0" />
+            <TextField fx:id="CustomerIDField" layoutX="10.0" layoutY="135.0" />
+            <ComboBox fx:id="ComboStartTime" prefWidth="150.0" />
+            <DatePicker fx:id="StartDate" />
+            <ComboBox fx:id="ComboEndTime" prefWidth="150.0" />
+            <DatePicker fx:id="EndDate" />
+            <TextField fx:id="UserIDField" layoutX="10.0" layoutY="160.0" />
          </children>
       </VBox>
       <VBox layoutX="190.0" layoutY="47.0" prefHeight="465.0" prefWidth="100.0" spacing="24.0">
@@ -39,7 +39,7 @@
       </VBox>
       <HBox layoutX="221.0" layoutY="536.0" prefHeight="25.0" prefWidth="137.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" prefWidth="52.0" text="Add" />
+            <Button mnemonicParsing="false" onAction="#OnActionAdd" prefWidth="52.0" text="Add" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionCancel" text="Cancel" />
          </children>
       </HBox>

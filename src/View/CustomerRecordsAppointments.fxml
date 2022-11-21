@@ -19,7 +19,7 @@
             <Button fx:id="DeleteAppointmentButton" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" prefWidth="55.0" text="Delete" />
          </children>
       </HBox>
-      <TableView fx:id="CustomerTableView" layoutX="14.0" layoutY="56.0" prefHeight="123.0" prefWidth="752.0">
+      <TableView fx:id="CustomerTableView" layoutX="14.0" layoutY="56.0" onMouseClicked="#CustomerTableOnMouseClicked" prefHeight="123.0" prefWidth="752.0">
         <columns>
           <TableColumn fx:id="CustomerIDColumn" prefWidth="75.0" text="C_ID" />
           <TableColumn fx:id="CustomerNameColumn" prefWidth="75.0" text="Name" />

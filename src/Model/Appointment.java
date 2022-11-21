@@ -3,6 +3,7 @@ package Model;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 public class Appointment {
@@ -12,8 +13,8 @@ public class Appointment {
     private String Description;
     private String Location;
     private String Type;
-    private Date Start;
-    private Date End;
+    private Timestamp Start;
+    private Timestamp End;
     private Date Create_Date;
     private String Created_By;
     private Timestamp Last_Update;
@@ -22,7 +23,7 @@ public class Appointment {
     private String User_Id;
     private String Contact_Id;
 
-    public Appointment(String appointment_id, String title, String description, String location, String type, Date start, Date end, Date create_date, String created_by, Timestamp last_update, String last_updated_by, String customer_id, String user_id, String contact_id) {
+    public Appointment(String appointment_id, String title, String description, String location, String type, Timestamp start, Timestamp end, Date create_date, String created_by, Timestamp last_update, String last_updated_by, String customer_id, String user_id, String contact_id) {
         Appointment_ID = appointment_id;
         Title = title;
         Description = description;
@@ -80,19 +81,19 @@ public class Appointment {
         Type = type;
     }
 
-    public Date getStart() {
+    public Timestamp getStart() {
         return Start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(Timestamp start) {
         Start = start;
     }
 
-    public Date getEnd() {
+    public Timestamp getEnd() {
         return End;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(Timestamp end) {
         End = end;
     }
 
@@ -128,27 +129,27 @@ public class Appointment {
         Last_Updated_By = last_Updated_By;
     }
 
-    public String getCustomer_Id() {
+    public String getCustomer_ID() {
         return Customer_Id;
     }
 
-    public void setCustomer_Id(String customer_Id) {
+    public void setCustomer_ID(String customer_Id) {
         Customer_Id = customer_Id;
     }
 
-    public String getUser_Id() {
+    public String getUser_ID() {
         return User_Id;
     }
 
-    public void setUser_Id(String user_Id) {
+    public void setUser_ID(String user_Id) {
         User_Id = user_Id;
     }
 
-    public String getContact_Id() {
+    public String getContact_ID() {
         return Contact_Id;
     }
 
-    public void setContact_Id(String contact_Id) {
+    public void setContact_ID(String contact_Id) {
         Contact_Id = contact_Id;
     }
 }

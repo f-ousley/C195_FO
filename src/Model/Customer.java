@@ -26,12 +26,10 @@ public class Customer {
         this.last_updated_By = last_updated_by;
         this.division_Id = division_id;
     }
+    public Customer(){};
 
 
-
-    public int getCustomer_ID() {
-        return customer_ID;
-    }
+    public int getCustomer_ID() { return customer_ID; }
 
     public void setCustomer_ID(int customer_ID) {
         this.customer_ID = customer_ID;
@@ -93,19 +91,19 @@ public class Customer {
         this.last_Update = last_Update;
     }
 
-    public String getLast_updated_By() {
+    public String getLast_Updated_By() {
         return last_updated_By;
     }
 
-    public void setLast_updated_By(String last_updated_By) {
+    public void setLast_Updated_By(String last_updated_By) {
         this.last_updated_By = last_updated_By;
     }
 
-    public String getDivision_Id() {
+    public String getDivision_ID() {
         return division_Id;
     }
 
-    public void setDivision_Id(String division_Id) {
+    public void setDivision_ID(String division_Id) {
         this.division_Id = division_Id;
     }
 }

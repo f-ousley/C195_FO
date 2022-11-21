@@ -13,7 +13,7 @@
             <TextField fx:id="LocationField" layoutX="10.0" layoutY="60.0" />
             <TextField fx:id="ContactField" layoutX="10.0" layoutY="85.0" />
             <TextField fx:id="TypeField" layoutX="10.0" layoutY="110.0" />
-            <TextField fx:id="CustomerIDField" layoutX="10.0" layoutY="135.0" />
+            <ComboBox fx:id="ComboCustomerID" layoutX="10.0" layoutY="135.0" prefWidth="100.0" />
             <ComboBox fx:id="ComboStartTime" prefWidth="150.0" />
             <DatePicker fx:id="StartDate" />
             <ComboBox fx:id="ComboEndTime" prefWidth="150.0" />

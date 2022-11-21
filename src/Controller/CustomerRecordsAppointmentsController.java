@@ -16,11 +16,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -28,6 +31,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
 
     Stage stage;
     Parent scene;
+    public static Customer customer;
 
     @FXML
     public TableView<Customer> CustomerTableView;
@@ -60,6 +64,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         CustomerIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Customer_ID"));
         CustomerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Customer_Name"));
         CustomerAddressColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Address"));
@@ -121,7 +126,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
             while(resultSet.next()){
                 observableList.add(new Appointment((resultSet.getString("Appointment_ID")), resultSet.getString("Title")
                 , resultSet.getString("Description"), resultSet.getString("Location"), resultSet.getString("Type"),
-                        resultSet.getDate("Start"), resultSet.getDate("End"), resultSet.getDate("Create_Date"),
+                        resultSet.getTimestamp("Start"), resultSet.getTimestamp("End"), resultSet.getDate("Create_Date"),
                         resultSet.getString("Created_By"), resultSet.getTimestamp("Last_update"), resultSet.getString("Last_Updated_By"),
                         (resultSet.getString("Customer_ID")),(resultSet.getString("User_ID")),(resultSet.getString("Contact_ID"))));
             }
@@ -131,10 +136,32 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         }
         return observableList;
     }
-    public void OnActionAddCustomer(ActionEvent actionEvent) {
+    public void OnActionAddCustomer(ActionEvent actionEvent) throws IOException {
+        stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.setTitle("Add Appointment");
+        stage.show();
     }
 
-    public void OnActionUpdateCustomer(ActionEvent actionEvent) {
+    public void OnActionUpdateCustomer(ActionEvent actionEvent) throws IOException {
+        customer = new Customer();
+        customer.setCustomer_ID(CustomerTableView.getSelectionModel().getSelectedItem().getCustomer_ID());
+        customer.setCustomer_Name(CustomerTableView.getSelectionModel().getSelectedItem().getCustomer_Name());
+        customer.setAddress(CustomerTableView.getSelectionModel().getSelectedItem().getAddress());
+        customer.setPostal_Code(CustomerTableView.getSelectionModel().getSelectedItem().getPostal_Code());
+        customer.setPhone(CustomerTableView.getSelectionModel().getSelectedItem().getPhone());
+        customer.setCreate_Date(java.sql.Date.valueOf(LocalDate.now()));
+        customer.setCreated_By(LoginController.user.getUsername());
+        customer.setLast_Update(java.sql.Date.valueOf(LocalDate.now()));
+        customer.setLast_Updated_By(LoginController.user.getUsername());
+        customer.setDivision_ID(CustomerTableView.getSelectionModel().getSelectedItem().getDivision_ID());
+        System.out.println("Customer Created");
+        stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/UpdateCustomer.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.setTitle("Add Appointment");
+        stage.show();
     }
 
     public void OnActionAddAppointment(ActionEvent actionEvent) throws IOException {
@@ -152,4 +179,10 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     }
 
 
+    public void CustomerTableOnMouseClicked(MouseEvent mouseEvent) {
+
+
+
+
+    }
 }

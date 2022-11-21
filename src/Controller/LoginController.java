@@ -17,6 +17,7 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -37,9 +38,9 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Locale locale = Locale.getDefault();
+        ZoneId  zoneId = ZoneId.systemDefault();
         String country = locale.getDisplayCountry();
-        LoginRegionLabel.setText(country);
-        System.out.println(country);
+        LoginRegionLabel.setText(country + "/" + zoneId);
 
     }
 

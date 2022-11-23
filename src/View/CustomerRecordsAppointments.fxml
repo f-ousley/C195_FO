@@ -9,14 +9,14 @@
          <children>
             <Button fx:id="AddCustomerButton" mnemonicParsing="false" onAction="#OnActionAddCustomer" prefWidth="55.0" text="Add" />
             <Button fx:id="UpdateCustomerButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionUpdateCustomer" text="Update" />
-            <Button fx:id="DeleteCustomerButton" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" prefWidth="55.0" text="Delete" />
+            <Button fx:id="DeleteCustomerButton" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionDeleteCustomer" prefWidth="55.0" text="Delete" />
          </children>
       </HBox>
       <HBox layoutX="14.0" layoutY="376.0" prefHeight="34.0" prefWidth="200.0" spacing="10.0">
          <children>
             <Button fx:id="AddAppointmentButton" mnemonicParsing="false" onAction="#OnActionAddAppointment" prefWidth="55.0" text="Add" />
             <Button fx:id="UpdateAppointmentButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionUpdateAppointment" text="Update" />
-            <Button fx:id="DeleteAppointmentButton" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" prefWidth="55.0" text="Delete" />
+            <Button fx:id="DeleteAppointmentButton" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionDeleteAppointment" prefWidth="55.0" text="Delete" />
          </children>
       </HBox>
       <TableView fx:id="CustomerTableView" layoutX="14.0" layoutY="56.0" onMouseClicked="#CustomerTableOnMouseClicked" prefHeight="123.0" prefWidth="752.0">

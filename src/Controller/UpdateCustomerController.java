@@ -1,26 +1,44 @@
 package Controller;
 
+import DBHelper.JDBC;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class UpdateCustomerController implements Initializable {
 
+    public TextField CustomerIDField;
+    public TextField NameField;
+    public TextField AddressField;
+    public TextField PostalCodeField;
+    public TextField PhoneField;
+    public TextField DivisionIDField;
     Stage stage;
     Parent scene;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        CustomerIDField.setText(Integer.toString(CustomerRecordsAppointmentsController.customer.getCustomer_ID()));
+        CustomerIDField.setEditable(false);
+        NameField.setText(CustomerRecordsAppointmentsController.customer.getCustomer_Name());
+        AddressField.setText(CustomerRecordsAppointmentsController.customer.getAddress());
+        PostalCodeField.setText(CustomerRecordsAppointmentsController.customer.getPostal_Code());
+        PhoneField.setText(CustomerRecordsAppointmentsController.customer.getPhone());
+        DivisionIDField.setText(CustomerRecordsAppointmentsController.customer.getDivision_ID());
     }
 
     public void OnActionCancelCustomer(ActionEvent actionEvent) throws IOException {
@@ -31,9 +49,23 @@ public class UpdateCustomerController implements Initializable {
         stage.show();
     }
 
-    public void OnActionUpdateCustomer(ActionEvent actionEvent) throws IOException {
+    public void OnActionUpdateCustomer(ActionEvent actionEvent) throws IOException, SQLException {
+
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement("update CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ?"
+                + " WHERE Customer_ID = ?");
+
+        preparedStatement.setString(1, NameField.getText());
+        preparedStatement.setString(2, AddressField.getText());
+        preparedStatement.setString(3, PostalCodeField.getText());
+        preparedStatement.setString(4, PhoneField.getText());
+        preparedStatement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
+        preparedStatement.setString(6, LoginController.user.getUsername());
+        preparedStatement.setInt(7, Integer.valueOf(DivisionIDField.getText()));
+        preparedStatement.setInt(8, CustomerRecordsAppointmentsController.customer.getCustomer_ID());
+        System.out.println(preparedStatement.toString());
+        int result = preparedStatement.executeUpdate();
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View/UpdateCustomer.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));
         stage.setScene(new Scene(scene));
         stage.setTitle("Add Customer");
         stage.show();

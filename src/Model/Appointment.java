@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 public class Appointment {
     private Customer customer;
-    private String Appointment_ID;
+    private int Appointment_ID;
     private String Title;
     private String Description;
     private String Location;
@@ -23,7 +23,7 @@ public class Appointment {
     private String User_Id;
     private String Contact_Id;
 
-    public Appointment(String appointment_id, String title, String description, String location, String type, Timestamp start, Timestamp end, Date create_date, String created_by, Timestamp last_update, String last_updated_by, String customer_id, String user_id, String contact_id) {
+    public Appointment(int appointment_id, String title, String description, String location, String type, Timestamp start, Timestamp end, Date create_date, String created_by, Timestamp last_update, String last_updated_by, String customer_id, String user_id, String contact_id) {
         Appointment_ID = appointment_id;
         Title = title;
         Description = description;
@@ -41,11 +41,11 @@ public class Appointment {
     }
     public Appointment(){}
 
-    public String getAppointment_ID() {
+    public int getAppointment_ID() {
         return Appointment_ID;
     }
 
-    public void setAppointment_ID(String appointment_ID) {
+    public void setAppointment_ID(int appointment_ID) {
         Appointment_ID = appointment_ID;
     }
 

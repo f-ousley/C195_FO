@@ -32,6 +32,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     Stage stage;
     Parent scene;
     public static Customer customer;
+    public static Appointment appointment;
 
     @FXML
     public TableView<Customer> CustomerTableView;
@@ -124,7 +125,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
             preparedStatement.setString(1,Integer.toString(UID));
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                observableList.add(new Appointment((resultSet.getString("Appointment_ID")), resultSet.getString("Title")
+                observableList.add(new Appointment((resultSet.getInt("Appointment_ID")), resultSet.getString("Title")
                 , resultSet.getString("Description"), resultSet.getString("Location"), resultSet.getString("Type"),
                         resultSet.getTimestamp("Start"), resultSet.getTimestamp("End"), resultSet.getDate("Create_Date"),
                         resultSet.getString("Created_By"), resultSet.getTimestamp("Last_update"), resultSet.getString("Last_Updated_By"),
@@ -175,14 +176,54 @@ public class CustomerRecordsAppointmentsController implements Initializable {
 
     }
 
-    public void OnActionUpdateAppointment(ActionEvent actionEvent) {
+    public void OnActionUpdateAppointment(ActionEvent actionEvent) throws IOException {
+        appointment = new Appointment();
+        appointment.setAppointment_ID(AppointmentsTableView.getSelectionModel().getSelectedItem().getAppointment_ID());
+        appointment.setTitle(AppointmentsTableView.getSelectionModel().getSelectedItem().getTitle());
+        appointment.setDescription(AppointmentsTableView.getSelectionModel().getSelectedItem().getDescription());
+        appointment.setLocation(AppointmentsTableView.getSelectionModel().getSelectedItem().getLocation());
+        appointment.setType(AppointmentsTableView.getSelectionModel().getSelectedItem().getType());
+        appointment.setStart(AppointmentsTableView.getSelectionModel().getSelectedItem().getStart());
+        appointment.setEnd(AppointmentsTableView.getSelectionModel().getSelectedItem().getEnd());
+        appointment.setCreate_Date(AppointmentsTableView.getSelectionModel().getSelectedItem().getCreate_Date());
+        appointment.setCreated_By(AppointmentsTableView.getSelectionModel().getSelectedItem().getCreated_By());
+        appointment.setLast_Update(AppointmentsTableView.getSelectionModel().getSelectedItem().getLast_Update());
+        appointment.setLast_Updated_By(AppointmentsTableView.getSelectionModel().getSelectedItem().getLast_Updated_By());
+        appointment.setCustomer_ID(AppointmentsTableView.getSelectionModel().getSelectedItem().getCustomer_ID());
+        appointment.setUser_ID(AppointmentsTableView.getSelectionModel().getSelectedItem().getUser_ID());
+        appointment.setContact_ID(AppointmentsTableView.getSelectionModel().getSelectedItem().getContact_ID());
+        stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/UpdateAppointment.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.setTitle("Add Appointment");
+        stage.show();
+
     }
 
+    
+
+    public void OnActionDeleteAppointment(ActionEvent actionEvent) throws SQLException {
+        int appt;
+        appt = AppointmentsTableView.getSelectionModel().getSelectedItem().getAppointment_ID();
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement( "DELETE FROM Appointments WHERE Appointment_ID = ?");
+        preparedStatement.setInt(1, appt);
+        System.out.println(preparedStatement);
+        boolean result = preparedStatement.execute();
+        AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
+    }
+
+    public void OnActionDeleteCustomer(ActionEvent actionEvent) throws SQLException {
+        int cust;
+        cust = CustomerTableView.getSelectionModel().getSelectedItem().getCustomer_ID();
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement("DELETE FROM CUSTOMERS WHERE Customer_ID = ?");
+        preparedStatement.setInt(1, cust);
+        System.out.println(preparedStatement);
+        boolean result = preparedStatement.execute();
+        CustomerTableView.setItems(getDataCustomers());
+
+
+    }
 
     public void CustomerTableOnMouseClicked(MouseEvent mouseEvent) {
-
-
-
-
     }
 }

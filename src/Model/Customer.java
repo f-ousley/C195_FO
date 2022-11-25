@@ -16,6 +16,8 @@ public class Customer {
     private Timestamp last_Update;
     private String last_updated_By;
     private String division_Id;
+    private Country country;
+    private Division division;
 
     public Customer(int customer_id, String customer_name, String address, String postal_code, String phone, Timestamp create_date, String created_by, Timestamp last_update, String last_updated_by, String division_id) {
         this.customer_ID = customer_id;

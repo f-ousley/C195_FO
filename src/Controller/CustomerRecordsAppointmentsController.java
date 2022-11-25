@@ -1,12 +1,9 @@
 package Controller;
 
 import DBHelper.JDBC;
-import Model.Appointment;
-import Model.Customer;
-import Model.User;
+import Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,11 +21,8 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class CustomerRecordsAppointmentsController implements Initializable {
 
@@ -36,6 +30,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     public RadioButton AppointmentMonthRadio;
     public ToggleGroup MonthWeekTG;
     public RadioButton AppointmentWeekRadio;
+
     Stage stage;
     Parent scene;
     public static Customer customer;
@@ -53,6 +48,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     public TableColumn<Customer, Date> CustomerLastUpdateColumn;
     public TableColumn<Customer, String> CustomerUpdatedByColumn;
     public TableColumn<Customer, String> CustomerDivisionIDColumn;
+    public TableColumn<Customer, Division> CustomerDivisionColumn;
     public TableView<Appointment> AppointmentsTableView;
     public TableColumn<Appointment, String> AppointmentIDColumn;
     public TableColumn<Appointment, String> AppointmentTitleColumn;
@@ -90,6 +86,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         CustomerLastUpdateColumn.setCellValueFactory(new PropertyValueFactory<Customer, Date>("Last_Update"));
         CustomerUpdatedByColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Last_Updated_By"));
         CustomerDivisionIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Division_ID"));
+        CustomerDivisionColumn.setCellValueFactory(new PropertyValueFactory<Customer, Division>("Division"));
         CustomerTableView.setItems(getDataCustomers());
 
         AppointmentIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("Appointment_ID"));
@@ -113,6 +110,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
 
     public static ObservableList<Customer> getDataCustomers() {
         ObservableList<Customer> observableList = FXCollections.observableArrayList();
+        ObservableList<Customer> custlist = FXCollections.observableArrayList();
         PreparedStatement preparedStatement;
         try {
             preparedStatement = JDBC.connection.prepareStatement("SELECT * FROM CUSTOMERS");

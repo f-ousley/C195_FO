@@ -1,6 +1,10 @@
 package Controller;
 
 import DBHelper.JDBC;
+import Model.Country;
+import Model.Division;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,7 +23,11 @@ import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class UpdateCustomerController implements Initializable {
-
+    public ComboBox CountryCombo;
+    public ComboBox DivisionCombo;
+    public static Country country;
+    ObservableList<Division> divisionlist = FXCollections.observableArrayList();
+    ObservableList<String> countryList = FXCollections.observableArrayList();
     public TextField CustomerIDField;
     public TextField NameField;
     public TextField AddressField;
@@ -39,7 +47,26 @@ public class UpdateCustomerController implements Initializable {
         PostalCodeField.setText(CustomerRecordsAppointmentsController.customer.getPostal_Code());
         PhoneField.setText(CustomerRecordsAppointmentsController.customer.getPhone());
         DivisionIDField.setText(CustomerRecordsAppointmentsController.customer.getDivision_ID());
+        try {
+            CountryCombo.setItems(getCountryList());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        //DivisionCombo.setItems();
     }
+
+    public ObservableList<String> getCountryList() throws SQLException {
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT Country FROM Countries");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            countryList.add(resultSet.getString("Country"));
+        }
+        return countryList;
+    }
+
+    //public ObservableList<String> getDivisionlist() {
+       // return divisionlist;
+   // }
 
     public void OnActionCancelCustomer(ActionEvent actionEvent) throws IOException {
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();

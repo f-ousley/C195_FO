@@ -15,15 +15,15 @@ public class Appointment {
     private String Type;
     private Timestamp Start;
     private Timestamp End;
-    private Date Create_Date;
+    private Timestamp Create_Date;
     private String Created_By;
     private Timestamp Last_Update;
     private String Last_Updated_By;
     private String Customer_Id;
     private String User_Id;
-    private String Contact_Id;
+    private int Contact_Id;
 
-    public Appointment(int appointment_id, String title, String description, String location, String type, Timestamp start, Timestamp end, Date create_date, String created_by, Timestamp last_update, String last_updated_by, String customer_id, String user_id, String contact_id) {
+    public Appointment(int appointment_id, String title, String description, String location, String type, Timestamp start, Timestamp end, Timestamp create_date, String created_by, Timestamp last_update, String last_updated_by, String customer_id, String user_id, int contact_id) {
         Appointment_ID = appointment_id;
         Title = title;
         Description = description;
@@ -97,11 +97,11 @@ public class Appointment {
         End = end;
     }
 
-    public Date getCreate_Date() {
+    public Timestamp getCreate_Date() {
         return Create_Date;
     }
 
-    public void setCreate_Date(Date create_Date) {
+    public void setCreate_Date(Timestamp create_Date) {
         Create_Date = create_Date;
     }
 
@@ -145,11 +145,11 @@ public class Appointment {
         User_Id = user_Id;
     }
 
-    public String getContact_ID() {
+    public int getContact_ID() {
         return Contact_Id;
     }
 
-    public void setContact_ID(String contact_Id) {
+    public void setContact_ID(int contact_Id) {
         Contact_Id = contact_Id;
     }
 }

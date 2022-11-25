@@ -6,15 +6,14 @@ import Model.Customer;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -23,12 +22,20 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class CustomerRecordsAppointmentsController implements Initializable {
 
+    private static boolean isWeekly;
+    public RadioButton AppointmentMonthRadio;
+    public ToggleGroup MonthWeekTG;
+    public RadioButton AppointmentWeekRadio;
     Stage stage;
     Parent scene;
     public static Customer customer;
@@ -66,6 +73,13 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        MonthWeekTG = new ToggleGroup();
+        AppointmentMonthRadio.setToggleGroup(MonthWeekTG);
+        AppointmentWeekRadio.setToggleGroup(MonthWeekTG);
+        AppointmentWeekRadio.setSelected(true);
+        AppointmentMonthRadio.setSelected(false);
+        User user = LoginController.user;
+
         CustomerIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Customer_ID"));
         CustomerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Customer_Name"));
         CustomerAddressColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Address"));
@@ -92,7 +106,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         AppointmentCustomerIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("Customer_ID"));
         AppointmentUserIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("User_ID"));
         AppointmentContactIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("Contact_ID"));
-        User user = LoginController.user;
+        isWeekly = true;
         AppointmentsTableView.setItems(getDataAppointments(user));
 
     }
@@ -106,36 +120,58 @@ public class CustomerRecordsAppointmentsController implements Initializable {
             while(resultSet.next()) {
                 observableList.add(new Customer((resultSet.getInt("Customer_ID")),resultSet.getString("Customer_Name"),
                         resultSet.getString("Address"),resultSet.getString("Postal_Code"), resultSet.getString("Phone"),
-                        resultSet.getDate("Create_Date"), resultSet.getString("Created_By"),
-                        resultSet.getDate("Last_Update"), resultSet.getString("Last_Updated_By"),
+                        resultSet.getTimestamp("Create_Date"), resultSet.getString("Created_By"),
+                        resultSet.getTimestamp("Last_Update"), resultSet.getString("Last_Updated_By"),
                         (resultSet.getString("Division_ID"))));
-                //System.out.println(observableList.toArray());
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return observableList;
+        return  observableList;
     }
     public static ObservableList<Appointment> getDataAppointments(User user) {
+        LocalDate datenow = LocalDate.now();
+        LocalDate oneweekout = datenow.plusWeeks(1);
+        LocalDate onemonthout = datenow.plusMonths(1);
         ObservableList<Appointment> observableList = FXCollections.observableArrayList();
         PreparedStatement preparedStatement;
         try {
             preparedStatement = JDBC.connection.prepareStatement("SELECT * FROM APPOINTMENTS WHERE USER_ID = ?");
             int UID = user.getUser_ID();
-            preparedStatement.setString(1,Integer.toString(UID));
+            preparedStatement.setString(1, Integer.toString(UID));
             ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 observableList.add(new Appointment((resultSet.getInt("Appointment_ID")), resultSet.getString("Title")
-                , resultSet.getString("Description"), resultSet.getString("Location"), resultSet.getString("Type"),
-                        resultSet.getTimestamp("Start"), resultSet.getTimestamp("End"), resultSet.getDate("Create_Date"),
+                        , resultSet.getString("Description"), resultSet.getString("Location"), resultSet.getString("Type"),
+                        resultSet.getTimestamp("Start"), resultSet.getTimestamp("End"), resultSet.getTimestamp("Create_Date"),
                         resultSet.getString("Created_By"), resultSet.getTimestamp("Last_update"), resultSet.getString("Last_Updated_By"),
-                        (resultSet.getString("Customer_ID")),(resultSet.getString("User_ID")),(resultSet.getString("Contact_ID"))));
+                        (resultSet.getString("Customer_ID")), (resultSet.getString("User_ID")), (resultSet.getInt("Contact_ID"))));
             }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return observableList;
+        if (isWeekly) {
+            ObservableList<Appointment> weeklylist = FXCollections.observableArrayList();
+            for (Appointment appt : observableList
+            ) {
+                if (appt.getStart().toLocalDateTime().isAfter(LocalDateTime.now()) && appt.getStart().toLocalDateTime().isBefore(LocalDateTime.of(oneweekout,LocalTime.now()))) {
+                    weeklylist.add(appt);
+                }
+
+            }
+            System.out.println(weeklylist);
+            return weeklylist;
+        } else {
+            ObservableList<Appointment> monthlylist = FXCollections.observableArrayList();
+            for(Appointment appt : observableList) {
+                if(appt.getStart().toLocalDateTime().isAfter(LocalDateTime.now()) && appt.getStart().toLocalDateTime().isBefore(LocalDateTime.of(onemonthout, LocalTime.now()))){
+                    monthlylist.add(appt);
+                }
+            }
+            System.out.println(monthlylist);
+            return monthlylist;
+        }
     }
     public void OnActionAddCustomer(ActionEvent actionEvent) throws IOException {
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -152,9 +188,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         customer.setAddress(CustomerTableView.getSelectionModel().getSelectedItem().getAddress());
         customer.setPostal_Code(CustomerTableView.getSelectionModel().getSelectedItem().getPostal_Code());
         customer.setPhone(CustomerTableView.getSelectionModel().getSelectedItem().getPhone());
-        customer.setCreate_Date(java.sql.Date.valueOf(LocalDate.now()));
+        customer.setCreate_Date(CustomerTableView.getSelectionModel().getSelectedItem().getCreate_Date());
         customer.setCreated_By(LoginController.user.getUsername());
-        customer.setLast_Update(java.sql.Date.valueOf(LocalDate.now()));
+        customer.setLast_Update(Timestamp.valueOf(LocalDateTime.now()));
         customer.setLast_Updated_By(LoginController.user.getUsername());
         customer.setDivision_ID(CustomerTableView.getSelectionModel().getSelectedItem().getDivision_ID());
         System.out.println("Customer Created");
@@ -225,5 +261,17 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     }
 
     public void CustomerTableOnMouseClicked(MouseEvent mouseEvent) {
+    }
+
+    public void OnActionMonthly(ActionEvent actionEvent) {
+        isWeekly = false;
+        AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
+
+
+    }
+
+    public void OnActionWeekly(ActionEvent actionEvent) {
+        isWeekly = true;
+        AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
     }
 }

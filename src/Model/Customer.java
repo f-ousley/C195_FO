@@ -1,5 +1,8 @@
 package Model;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Customer {
@@ -8,13 +11,13 @@ public class Customer {
     private String address;
     private String postal_Code;
     private String phone;
-    private Date create_Date;
+    private Timestamp create_Date;
     private String created_By;
-    private Date last_Update;
+    private Timestamp last_Update;
     private String last_updated_By;
     private String division_Id;
 
-    public Customer(int customer_id, String customer_name, String address, String postal_code, String phone, java.sql.Date create_date, String created_by, java.sql.Date last_update, String last_updated_by, String division_id) {
+    public Customer(int customer_id, String customer_name, String address, String postal_code, String phone, Timestamp create_date, String created_by, Timestamp last_update, String last_updated_by, String division_id) {
         this.customer_ID = customer_id;
         this.customer_Name = customer_name;
         this.address = address;
@@ -67,11 +70,11 @@ public class Customer {
         this.phone = phone;
     }
 
-    public Date getCreate_Date() {
+    public Timestamp getCreate_Date() {
         return create_Date;
     }
 
-    public void setCreate_Date(Date create_Date) {
+    public void setCreate_Date(Timestamp create_Date) {
         this.create_Date = create_Date;
     }
 
@@ -87,7 +90,7 @@ public class Customer {
         return last_Update;
     }
 
-    public void setLast_Update(Date last_Update) {
+    public void setLast_Update(Timestamp last_Update) {
         this.last_Update = last_Update;
     }
 

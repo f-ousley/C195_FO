@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="419.0" prefWidth="1242.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CustomerRecordsAppointmentsController">
    <children>
@@ -50,15 +51,21 @@
             <TableColumn fx:id="AppointmentUserIDColumn" prefWidth="82.0" text="User_ID" />
             <TableColumn fx:id="AppointmentContactIDColumn" prefWidth="82.0" text="Contact_ID" />
          </columns></TableView>
-      <Label layoutX="151.0" layoutY="32.0" text="Customer Reccord" />
-      <Label layoutX="151.0" layoutY="224.0" text="Appointments" />
-      <HBox layoutX="557.0" layoutY="232.0" prefHeight="17.0" prefWidth="200.0" spacing="20.0">
+      <Label layoutX="341.0" layoutY="31.0" text="Customer Reccord">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="562.0" layoutY="225.0" text="Appointments">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <HBox layoutX="14.0" layoutY="233.0" prefHeight="17.0" prefWidth="200.0" spacing="20.0">
          <children>
-            <RadioButton fx:id="AppointmentMonthRadio" mnemonicParsing="false" text="Month">
+            <RadioButton fx:id="AppointmentMonthRadio" mnemonicParsing="false" onAction="#OnActionMonthly" text="Month">
                <toggleGroup>
                   <ToggleGroup fx:id="MonthWeekTG" />
                </toggleGroup></RadioButton>
-            <RadioButton fx:id="AppointmentWeekRadio" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Week" toggleGroup="$MonthWeekTG" />
+            <RadioButton fx:id="AppointmentWeekRadio" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionWeekly" text="Week" toggleGroup="$MonthWeekTG" />
          </children>
       </HBox>
    </children>

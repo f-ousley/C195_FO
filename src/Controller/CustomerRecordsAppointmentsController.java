@@ -31,6 +31,8 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     public ToggleGroup MonthWeekTG;
     public RadioButton AppointmentWeekRadio;
 
+
+
     Stage stage;
     Parent scene;
     public static Customer customer;
@@ -48,7 +50,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     public TableColumn<Customer, Date> CustomerLastUpdateColumn;
     public TableColumn<Customer, String> CustomerUpdatedByColumn;
     public TableColumn<Customer, String> CustomerDivisionIDColumn;
-    public TableColumn<Customer, Division> CustomerDivisionColumn;
+    public TableColumn<Customer, String> CustomerCountryIDColumn;
+    public TableColumn<Customer, String> CustomerCountryColumn;
+    public TableColumn<Customer, String> CustomerDivisionColumn;
     public TableView<Appointment> AppointmentsTableView;
     public TableColumn<Appointment, String> AppointmentIDColumn;
     public TableColumn<Appointment, String> AppointmentTitleColumn;
@@ -86,7 +90,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         CustomerLastUpdateColumn.setCellValueFactory(new PropertyValueFactory<Customer, Date>("Last_Update"));
         CustomerUpdatedByColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Last_Updated_By"));
         CustomerDivisionIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Division_ID"));
-        CustomerDivisionColumn.setCellValueFactory(new PropertyValueFactory<Customer, Division>("Division"));
+        CustomerCountryIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Country_ID"));
+        CustomerCountryColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Country"));
+        CustomerDivisionColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Division"));
         CustomerTableView.setItems(getDataCustomers());
 
         AppointmentIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("Appointment_ID"));
@@ -113,14 +119,14 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         ObservableList<Customer> custlist = FXCollections.observableArrayList();
         PreparedStatement preparedStatement;
         try {
-            preparedStatement = JDBC.connection.prepareStatement("SELECT * FROM CUSTOMERS");
+            preparedStatement = JDBC.connection.prepareStatement("SELECT * FROM customers JOIN first_level_divisions ON customers.Division_ID =  first_level_divisions.Division_ID JOIN countries ON first_level_divisions.Country_ID = countries.Country_ID");
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
                 observableList.add(new Customer((resultSet.getInt("Customer_ID")),resultSet.getString("Customer_Name"),
                         resultSet.getString("Address"),resultSet.getString("Postal_Code"), resultSet.getString("Phone"),
                         resultSet.getTimestamp("Create_Date"), resultSet.getString("Created_By"),
                         resultSet.getTimestamp("Last_Update"), resultSet.getString("Last_Updated_By"),
-                        (resultSet.getString("Division_ID"))));
+                        (resultSet.getInt("Division_ID")),resultSet.getString("Country"), resultSet.getString("Division"), resultSet.getInt("Country_ID")));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -191,11 +197,12 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         customer.setLast_Update(Timestamp.valueOf(LocalDateTime.now()));
         customer.setLast_Updated_By(LoginController.user.getUsername());
         customer.setDivision_ID(CustomerTableView.getSelectionModel().getSelectedItem().getDivision_ID());
+        customer.setCountry_ID(CustomerTableView.getSelectionModel().getSelectedItem().getCountry_ID());
         System.out.println("Customer Created");
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/UpdateCustomer.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle("Add Appointment");
+        stage.setTitle("Update Customer");
         stage.show();
     }
 

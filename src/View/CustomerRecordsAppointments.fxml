@@ -20,7 +20,7 @@
             <Button fx:id="DeleteAppointmentButton" layoutX="62.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionDeleteAppointment" prefWidth="55.0" text="Delete" />
          </children>
       </HBox>
-      <TableView fx:id="CustomerTableView" layoutX="14.0" layoutY="56.0" onMouseClicked="#CustomerTableOnMouseClicked" prefHeight="123.0" prefWidth="824.0">
+      <TableView fx:id="CustomerTableView" layoutX="14.0" layoutY="56.0" onMouseClicked="#CustomerTableOnMouseClicked" prefHeight="123.0" prefWidth="979.0">
         <columns>
           <TableColumn fx:id="CustomerIDColumn" prefWidth="75.0" text="C_ID" />
           <TableColumn fx:id="CustomerNameColumn" prefWidth="75.0" text="Name" />
@@ -31,8 +31,10 @@
             <TableColumn fx:id="CustomerCreatedByColumn" prefWidth="75.0" text="Created_By" />
             <TableColumn fx:id="CustomerLastUpdateColumn" prefWidth="75.0" text="Last_Update" />
             <TableColumn fx:id="CustomerUpdatedByColumn" prefWidth="75.0" text="Updated_By" />
-            <TableColumn fx:id="CustomerDivisionIDColumn" prefWidth="75.0" text="Division_ID" />
+            <TableColumn fx:id="CustomerCountryColumn" prefWidth="75.0" text="Country" />
             <TableColumn fx:id="CustomerDivisionColumn" prefWidth="75.0" text="Division" />
+            <TableColumn fx:id="CustomerDivisionIDColumn" prefWidth="75.0" text="Division_ID" />
+            <TableColumn fx:id="CustomerCountryIDColumn" prefWidth="75.0" text="Country_ID" />
         </columns>
       </TableView>
       <TableView fx:id="AppointmentsTableView" layoutX="14.0" layoutY="253.0" prefHeight="123.0" prefWidth="1171.0">

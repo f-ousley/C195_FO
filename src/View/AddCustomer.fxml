@@ -7,13 +7,13 @@
    <children>
       <VBox layoutX="177.0" layoutY="41.0" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
          <children>
-            <TextField />
-            <TextField layoutX="10.0" layoutY="10.0" />
-            <TextField layoutX="10.0" layoutY="35.0" />
-            <TextField layoutX="10.0" layoutY="60.0" />
+            <TextField fx:id="IDTextField" />
+            <TextField fx:id="NameTextField" layoutX="10.0" layoutY="10.0" />
+            <TextField fx:id="AddressTextField" layoutX="10.0" layoutY="35.0" />
+            <TextField fx:id="PostalTextField" layoutX="10.0" layoutY="60.0" />
             <TextField layoutX="10.0" layoutY="85.0" />
-            <ComboBox prefWidth="150.0" />
-            <ComboBox layoutX="10.0" layoutY="235.0" prefWidth="150.0" />
+            <ComboBox fx:id="CountryCombo" onAction="#OnActionCountry" prefWidth="150.0" />
+            <ComboBox fx:id="DivisionCombo" layoutX="10.0" layoutY="235.0" prefWidth="150.0" />
          </children>
       </VBox>
       <VBox layoutX="89.0" layoutY="39.0" prefHeight="252.0" prefWidth="81.0" spacing="30.0">
@@ -29,7 +29,7 @@
       </VBox>
       <HBox layoutX="14.0" layoutY="343.0" prefHeight="43.0" prefWidth="126.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Add" />
+            <Button mnemonicParsing="false" onAction="#OnActionAdd" prefHeight="25.0" prefWidth="51.0" text="Add" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionCancelCustomer" text="Cancel" />
          </children>
       </HBox>

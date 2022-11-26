@@ -12,8 +12,8 @@
                 <TextField fx:id="AddressField" layoutX="10.0" layoutY="35.0" />
                 <TextField fx:id="PostalCodeField" layoutX="10.0" layoutY="60.0" />
                 <TextField fx:id="PhoneField" layoutX="10.0" layoutY="85.0" />
-            <ComboBox fx:id="CountryCombo" layoutX="10.0" layoutY="235.0" prefWidth="100.0" />
-            <ComboBox fx:id="DivisionCombo" layoutX="10.0" layoutY="235.0" prefWidth="100.0" />
+            <ComboBox fx:id="CountryCombo" layoutX="10.0" layoutY="235.0" onAction="#OnActionCountrySelected" prefWidth="100.0" />
+            <ComboBox fx:id="DivisionCombo" layoutX="10.0" layoutY="235.0" onAction="#OnActionDivision" prefWidth="100.0" />
             </children>
         </VBox>
         <VBox layoutX="56.0" layoutY="39.0" prefHeight="312.0" prefWidth="114.0" spacing="30.0">

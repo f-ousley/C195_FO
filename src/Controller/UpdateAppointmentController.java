@@ -112,9 +112,9 @@ public class UpdateAppointmentController implements Initializable {
     }
 
     private ObservableList<String> fill_start_end_combo(){
-        LocalTime localTime = LocalTime.of(8,0,0);
-        while(localTime != LocalTime.of(17,0,0) ) {
-            localTime = localTime.plusHours(1);
+        LocalTime localTime = LocalTime.of(1,0,0);
+        while(localTime != LocalTime.of(23,0,0) ) {
+            localTime = localTime.plusMinutes(15);
             startList.add(localTime.format(dateTimeFormatter));
             endList.add(localTime.format(dateTimeFormatter));
         }

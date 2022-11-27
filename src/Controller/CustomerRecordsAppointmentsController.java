@@ -2,6 +2,7 @@ package Controller;
 
 import DBHelper.JDBC;
 import Model.*;
+import com.mysql.cj.xdevapi.Warning;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,17 +27,15 @@ import java.util.ResourceBundle;
 
 public class CustomerRecordsAppointmentsController implements Initializable {
 
-    private static boolean isWeekly;
-    public RadioButton AppointmentMonthRadio;
-    public ToggleGroup MonthWeekTG;
-    public RadioButton AppointmentWeekRadio;
-
-
-
     Stage stage;
     Parent scene;
     public static Customer customer;
     public static Appointment appointment;
+    private static boolean isWeekly;
+    public static boolean isWarning = false;
+    public RadioButton AppointmentMonthRadio;
+    public ToggleGroup MonthWeekTG;
+    public RadioButton AppointmentWeekRadio;
 
     @FXML
     public TableView<Customer> CustomerTableView;
@@ -53,6 +52,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     public TableColumn<Customer, String> CustomerCountryIDColumn;
     public TableColumn<Customer, String> CustomerCountryColumn;
     public TableColumn<Customer, String> CustomerDivisionColumn;
+
     public TableView<Appointment> AppointmentsTableView;
     public TableColumn<Appointment, String> AppointmentIDColumn;
     public TableColumn<Appointment, String> AppointmentTitleColumn;
@@ -137,6 +137,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         LocalDate datenow = LocalDate.now();
         LocalDate oneweekout = datenow.plusWeeks(1);
         LocalDate onemonthout = datenow.plusMonths(1);
+        System.out.println(datenow);
         ObservableList<Appointment> observableList = FXCollections.observableArrayList();
         PreparedStatement preparedStatement;
         try {
@@ -150,7 +151,8 @@ public class CustomerRecordsAppointmentsController implements Initializable {
                         resultSet.getTimestamp("Start"), resultSet.getTimestamp("End"), resultSet.getTimestamp("Create_Date"),
                         resultSet.getString("Created_By"), resultSet.getTimestamp("Last_update"), resultSet.getString("Last_Updated_By"),
                         (resultSet.getString("Customer_ID")), (resultSet.getString("User_ID")), (resultSet.getInt("Contact_ID"))));
-            }
+                }
+            checkMinuteWarning(observableList);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -164,6 +166,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
                 }
 
             }
+            checkMinuteWarning(weeklylist);
             System.out.println(weeklylist);
             return weeklylist;
         } else {
@@ -264,7 +267,26 @@ public class CustomerRecordsAppointmentsController implements Initializable {
 
 
     }
-
+    public static void checkMinuteWarning(ObservableList<Appointment> appts) {
+        for (Appointment apt : appts) {
+            if (apt.getStart().toLocalDateTime().isAfter(LocalDateTime.now()) && apt.getStart().toLocalDateTime().isBefore(LocalDateTime.now().plusMinutes(15))) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Upcoming Appointment");
+                alert.setContentText("You have an Appointment ID:" + apt.getAppointment_ID() + " Start:" + apt.getStart().toLocalDateTime());
+                alert.setHeaderText("Appointment Alert");
+                alert.showAndWait();
+                isWarning = true;
+            }
+        }
+        if(!isWarning) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Upcoming Appointments");
+            alert.setTitle("Scheduled Appointments");
+            alert.setContentText("You have no upcoming appointments");
+            alert.setHeaderText("Appointment Alert");
+            alert.showAndWait();
+        }
+    }
     public void CustomerTableOnMouseClicked(MouseEvent mouseEvent) {
     }
 

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -36,14 +37,14 @@ public class AddAppointmentController implements Initializable {
     public DatePicker EndDate;
     Stage stage;
     Parent scene;
-    private ObservableList<String> startList = FXCollections.observableArrayList();
-    private ObservableList<String> endList = FXCollections.observableArrayList();
+    private ObservableList<LocalTime> startList = FXCollections.observableArrayList();
+    private ObservableList<LocalTime> endList = FXCollections.observableArrayList();
     private ObservableList<Integer> custList = FXCollections.observableArrayList();
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
     @FXML
-    private ComboBox<String> ComboStartTime;
+    private ComboBox<LocalTime> ComboStartTime;
     @FXML
-    private ComboBox<String> ComboEndTime;
+    private ComboBox<LocalTime> ComboEndTime;
     @FXML
     private ComboBox<Integer> ComboCustomerID;
 
@@ -77,11 +78,11 @@ public class AddAppointmentController implements Initializable {
         preparedStatement.setString(2, DescriptionField.getText());
         preparedStatement.setString(3, LocationField.getText());
         preparedStatement.setString(4, TypeField.getText());
-        preparedStatement.setDate(5,java.sql.Date.valueOf(StartDate.getValue()));
-        preparedStatement.setDate(6, java.sql.Date.valueOf(EndDate.getValue()));
-        preparedStatement.setDate(7, Date.valueOf(LocalDate.now()));
+        preparedStatement.setTimestamp(5,Timestamp.valueOf(LocalDateTime.of(StartDate.getValue(),ComboStartTime.getValue())));
+        preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.of(EndDate.getValue(), ComboEndTime.getValue())));
+        preparedStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.now())));
         preparedStatement.setString(8,LoginController.user.getUsername());
-        preparedStatement.setDate(9, Date.valueOf(LocalDate.now()));
+        preparedStatement.setTimestamp(9, Timestamp.valueOf(LocalDateTime.of(LocalDate.now(),LocalTime.now())));
         preparedStatement.setString(10, LoginController.user.getUsername());
         preparedStatement.setInt(11,ComboCustomerID.getValue());
         preparedStatement.setInt(12,LoginController.user.getUser_ID());
@@ -105,12 +106,12 @@ public class AddAppointmentController implements Initializable {
 
     }
 
-    private ObservableList<String> fill_start_end_combo(){
-        LocalTime localTime = LocalTime.of(8,0,0);
-        while(localTime != LocalTime.of(17,0,0) ) {
-            localTime = localTime.plusHours(1);
-            startList.add(localTime.format(dateTimeFormatter));
-            endList.add(localTime.format(dateTimeFormatter));
+    private ObservableList<LocalTime> fill_start_end_combo(){
+        LocalTime localTime = LocalTime.of(1,0,0);
+        while(localTime != LocalTime.of(23,0,0) ) {
+            localTime = localTime.plusMinutes(15);
+            startList.add(LocalTime.parse(localTime.format(dateTimeFormatter)));
+            endList.add(LocalTime.parse(localTime.format(dateTimeFormatter)));
         }
         return startList;
     }

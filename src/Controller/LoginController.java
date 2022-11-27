@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -59,6 +60,14 @@ public class LoginController implements Initializable {
                 user_id = Set_UID(password);
                 StoreUser(user_id, username, password);
             }
+
+        }
+        if (user == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Wrong Password or Username");
+            alert.setContentText("You have entered an incorrect username password combination");
+            alert.setHeaderText("Error Alert");
+            alert.showAndWait();
 
         }
         stage = (Stage) ((Button) (actionEvent.getSource())).getScene().getWindow();

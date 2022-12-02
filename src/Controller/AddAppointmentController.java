@@ -67,7 +67,20 @@ public class AddAppointmentController implements Initializable {
 
 
     }
-
+    public static void checkOverlap(int customer_id, Timestamp appointment_start, Timestamp appointment_end) throws SQLException {
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT * FROM Appointments WHERE Customer_ID = ?");
+        preparedStatement.setInt(1, customer_id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            if(resultSet.getTimestamp("Start").after(appointment_start) && resultSet.getTimestamp("Start").before(appointment_end)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Overlapping Appointments");
+                alert.setTitle("Warning Appointments Overlap");
+                alert.setContentText("The customers appointments have been overbooked please change start and end times");
+                alert.showAndWait();
+            }
+        }
+    }
     public void OnActionAdd(ActionEvent actionEvent) throws SQLException, IOException {
         LocalDate localDate = LocalDate.now();
 
@@ -87,6 +100,9 @@ public class AddAppointmentController implements Initializable {
         preparedStatement.setInt(11,ComboCustomerID.getValue());
         preparedStatement.setInt(12,LoginController.user.getUser_ID());
         preparedStatement.setInt(13,LoginController.user.getUser_ID());
+        Timestamp appointment_start = Timestamp.valueOf(LocalDateTime.of(StartDate.getValue(),ComboStartTime.getValue()));
+        Timestamp appointment_end = Timestamp.valueOf(LocalDateTime.of(EndDate.getValue(), ComboEndTime.getValue()));
+        checkOverlap(ComboCustomerID.getValue(),appointment_start, appointment_end);
         boolean result = preparedStatement.execute();
         System.out.println("Appointment Added");
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();

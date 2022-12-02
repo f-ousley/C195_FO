@@ -22,7 +22,7 @@
       </HBox>
       <TableView fx:id="CustomerTableView" layoutX="14.0" layoutY="56.0" onMouseClicked="#CustomerTableOnMouseClicked" prefHeight="123.0" prefWidth="979.0">
         <columns>
-          <TableColumn fx:id="CustomerIDColumn" prefWidth="75.0" text="C_ID" />
+          <TableColumn fx:id="CustomerIDColumn" prefWidth="75.0" text="Customer ID" />
           <TableColumn fx:id="CustomerNameColumn" prefWidth="75.0" text="Name" />
             <TableColumn fx:id="CustomerAddressColumn" prefWidth="75.0" text="Address" />
             <TableColumn fx:id="CustomerPostalCodeColumn" prefWidth="75.0" text="Postal Code" />
@@ -71,5 +71,10 @@
             <RadioButton fx:id="AppointmentWeekRadio" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionWeekly" text="Week" toggleGroup="$MonthWeekTG" />
          </children>
       </HBox>
+      <Button layoutX="1086.0" layoutY="93.0" mnemonicParsing="false" onAction="#OnActionRecords" text="Records">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -216,8 +216,6 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage.setTitle("Add Appointment");
         stage.show();
 
-        
-
     }
 
     public void OnActionUpdateAppointment(ActionEvent actionEvent) throws IOException {
@@ -300,5 +298,13 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     public void OnActionWeekly(ActionEvent actionEvent) {
         isWeekly = true;
         AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
+    }
+
+    public void OnActionRecords(ActionEvent actionEvent) throws IOException {
+        stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/Records.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.setTitle("Records");
+        stage.show();
     }
 }

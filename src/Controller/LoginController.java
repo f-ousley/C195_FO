@@ -13,11 +13,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -62,13 +69,24 @@ public class LoginController implements Initializable {
             }
 
         }
+        if(user != null) {
+            File file = new File("src/Login_activity.txt");
+            FileWriter fileWriter = new FileWriter(file, true);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.println("Successful Login Attempt UserID: " + UsernameField.getText() + " " + Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.now())));
+            printWriter.close();
+        }
         if (user == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Wrong Password or Username");
             alert.setContentText("You have entered an incorrect username password combination");
             alert.setHeaderText("Error Alert");
             alert.showAndWait();
-
+            File file = new File("src/Login_activity.txt");
+            FileWriter fileWriter = new FileWriter(file, true);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.println("Unsuccessful Login Attempt UserID: " + UsernameField.getText() + " " + Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.now())));
+            printWriter.close();
         }
         stage = (Stage) ((Button) (actionEvent.getSource())).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));

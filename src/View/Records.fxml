@@ -6,10 +6,11 @@
 <AnchorPane prefHeight="805.0" prefWidth="779.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.RecordsController">
    <children>
       <Label layoutX="286.0" layoutY="22.0" text="Records" />
-      <TableView layoutX="41.0" layoutY="67.0" prefHeight="200.0" prefWidth="564.0">
+      <TableView fx:id="TypeTableView" layoutX="41.0" layoutY="67.0" prefHeight="200.0" prefWidth="564.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="TypeMonthColumn" prefWidth="105.0" text="Month" />
+          <TableColumn fx:id="TypeColumn" prefWidth="208.0" text="Type" />
+            <TableColumn fx:id="TypeTotalColumn" prefWidth="250.0" text="Total" />
         </columns>
       </TableView>
       <TableView fx:id="ContactTableView" layoutX="41.0" layoutY="303.0" prefHeight="200.0" prefWidth="564.0">
@@ -24,12 +25,13 @@
             <TableColumn fx:id="ContactCustomerColumn" prefWidth="75.0" text="Customer ID" />
          </columns>
       </TableView>
-      <TableView layoutX="47.0" layoutY="519.0" prefHeight="200.0" prefWidth="564.0">
+      <TableView fx:id="CustomRecordTable" layoutX="47.0" layoutY="519.0" prefHeight="200.0" prefWidth="564.0">
          <columns>
-            <TableColumn prefWidth="75.0" text="C1" />
-            <TableColumn prefWidth="75.0" text="C2" />
+            <TableColumn fx:id="CustomNameColumn" prefWidth="402.0" text="Name" />
+            <TableColumn fx:id="CustomTotalColumn" prefWidth="161.0" text="Total" />
          </columns>
       </TableView>
       <ComboBox fx:id="ContactCombo" layoutX="622.0" layoutY="303.0" onAction="#OnActionContact" prefHeight="25.0" prefWidth="116.0" />
+      <Button layoutX="364.0" layoutY="747.0" mnemonicParsing="false" onAction="#OnActionCancel" text="Cancel" />
    </children>
 </AnchorPane>

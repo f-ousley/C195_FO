@@ -1,6 +1,7 @@
 package Controller;
 
 import DBHelper.JDBC;
+import FO_program.Main;
 import Model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +34,7 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
+    public Button LoginButton;
     Stage stage;
     Parent scene;
     public static User user;
@@ -49,7 +51,10 @@ public class LoginController implements Initializable {
         ZoneId  zoneId = ZoneId.systemDefault();
         String country = locale.getDisplayCountry();
         LoginRegionLabel.setText(country + "/" + zoneId);
-
+        UsernameField.setText(Main.resourceBundle.getString("Username"));
+        PasswordField.setText(Main.resourceBundle.getString("Password"));
+        LoginButton.setText(Main.resourceBundle.getString("Login"));
+        //stage.setTitle(Main.resourceBundle.getString("Login"));
     }
 
     public void OnActionLogin(javafx.event.ActionEvent actionEvent) throws IOException, SQLException {
@@ -91,7 +96,7 @@ public class LoginController implements Initializable {
         stage = (Stage) ((Button) (actionEvent.getSource())).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle("Appointments");
+        stage.setTitle(Main.resourceBundle.getString("Appointments"));
         stage.show();
     }
 

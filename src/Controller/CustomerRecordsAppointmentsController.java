@@ -1,6 +1,7 @@
 package Controller;
 
 import DBHelper.JDBC;
+import FO_program.Main;
 import Model.*;
 import com.mysql.cj.xdevapi.Warning;
 import javafx.collections.FXCollections;
@@ -27,6 +28,15 @@ import java.util.ResourceBundle;
 
 public class CustomerRecordsAppointmentsController implements Initializable {
 
+    public Button AddCustomerButton;
+    public Button UpdateCustomerButton;
+    public Button DeleteCustomerButton;
+    public Button AddAppointmentButton;
+    public Button UpdateAppointmentButton;
+    public Button DeleteAppointmentButton;
+    public Label CustomerLabel;
+    public Label AppointmentsLabel;
+    public Button RecordsButton;
     Stage stage;
     Parent scene;
     public static Customer customer;
@@ -111,6 +121,17 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         AppointmentContactIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("Contact_ID"));
         isWeekly = true;
         AppointmentsTableView.setItems(getDataAppointments(user));
+        AddCustomerButton.setText(Main.resourceBundle.getString("Add"));
+        UpdateCustomerButton.setText(Main.resourceBundle.getString("Update"));
+        DeleteCustomerButton.setText(Main.resourceBundle.getString("Delete"));
+        AddAppointmentButton.setText(Main.resourceBundle.getString("Add"));
+        UpdateAppointmentButton.setText(Main.resourceBundle.getString("Update"));
+        DeleteAppointmentButton.setText(Main.resourceBundle.getString("Delete"));
+        CustomerLabel.setText(Main.resourceBundle.getString("Customer"));
+        AppointmentsLabel.setText(Main.resourceBundle.getString("Appointments"));
+        RecordsButton.setText(Main.resourceBundle.getString("Records"));
+        AppointmentMonthRadio.setText(Main.resourceBundle.getString("Month"));
+        AppointmentWeekRadio.setText(Main.resourceBundle.getString("Week"));
 
     }
 
@@ -184,7 +205,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle("Add Appointment");
+        stage.setTitle(Main.resourceBundle.getString("Add") + " " + Main.resourceBundle.getString("Customer"));
         stage.show();
     }
 
@@ -278,10 +299,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         }
         if(!isWarning) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Upcoming Appointments");
-            alert.setTitle("Scheduled Appointments");
-            alert.setContentText("You have no upcoming appointments");
-            alert.setHeaderText("Appointment Alert");
+            alert.setTitle(Main.resourceBundle.getString("alert1title"));
+            alert.setContentText(Main.resourceBundle.getString("alert1text"));
+            alert.setHeaderText(Main.resourceBundle.getString("alert1header"));
             alert.showAndWait();
         }
     }

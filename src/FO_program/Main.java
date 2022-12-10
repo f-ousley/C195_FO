@@ -9,15 +9,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class Main extends Application {
 
+    public static ResourceBundle resourceBundle;
     @FXML
     private Label LoginRegionLabel;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        resourceBundle = ResourceBundle.getBundle("resources/Nat",new Locale("fr"));
         Parent root = FXMLLoader.load(getClass().getResource("../View/Login.fxml"));
-        primaryStage.setTitle("Login");
+        primaryStage.setTitle(resourceBundle.getString("Login"));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
         JDBC.openConnection();

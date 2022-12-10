@@ -54,11 +54,11 @@
             <TableColumn fx:id="AppointmentUserIDColumn" prefWidth="82.0" text="User_ID" />
             <TableColumn fx:id="AppointmentContactIDColumn" prefWidth="82.0" text="Contact_ID" />
          </columns></TableView>
-      <Label layoutX="341.0" layoutY="31.0" text="Customer Reccord">
+      <Label fx:id="CustomerLabel" layoutX="576.0" layoutY="22.0" text="Customer">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="562.0" layoutY="225.0" text="Appointments">
+      <Label fx:id="AppointmentsLabel" layoutX="562.0" layoutY="225.0" text="Appointments">
          <font>
             <Font size="14.0" />
          </font></Label>
@@ -71,7 +71,7 @@
             <RadioButton fx:id="AppointmentWeekRadio" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionWeekly" text="Week" toggleGroup="$MonthWeekTG" />
          </children>
       </HBox>
-      <Button layoutX="1086.0" layoutY="93.0" mnemonicParsing="false" onAction="#OnActionRecords" text="Records">
+      <Button fx:id="RecordsButton" layoutX="1086.0" layoutY="93.0" mnemonicParsing="false" onAction="#OnActionRecords" text="Records">
          <font>
             <Font size="14.0" />
          </font>

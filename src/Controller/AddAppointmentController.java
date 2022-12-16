@@ -1,6 +1,7 @@
 package Controller;
 
 import DBHelper.JDBC;
+import FO_program.Main;
 import Model.Appointment;
 import Model.Customer;
 import Model.User;
@@ -22,9 +23,29 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
+
+    Stage stage;
+    Parent scene;
+
+    public Button AddButton;
+    public Button CancelButton;
+
+    public Label AppointmentIDLabel;
+    public Label TitleLabel;
+    public Label DescriptionLabel;
+    public Label LocationLabel;
+    public Label ContactLabel;
+    public Label TypeLabel;
+    public Label CustomerIDLabel;
+    public Label StartTimeLabel;
+    public Label StartDateLabel;
+    public Label EndTimeLabel;
+    public Label EndDateLabel;
+    public Label UserIDLabel;
 
     public TextField UserIDField;
     public TextField IDField;
@@ -35,12 +56,12 @@ public class AddAppointmentController implements Initializable {
     public TextField TypeField;
     public DatePicker StartDate;
     public DatePicker EndDate;
-    Stage stage;
-    Parent scene;
+
     private ObservableList<LocalTime> startList = FXCollections.observableArrayList();
     private ObservableList<LocalTime> endList = FXCollections.observableArrayList();
     private ObservableList<Integer> custList = FXCollections.observableArrayList();
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
     @FXML
     private ComboBox<LocalTime> ComboStartTime;
     @FXML
@@ -52,36 +73,67 @@ public class AddAppointmentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ComboStartTime.setItems(fill_start_end_combo());
-        ComboEndTime.setItems(fill_start_end_combo());
+
         User user = LoginController.user;
         int userid = user.getUser_ID();
+
+        AppointmentIDLabel.setText(Main.resourceBundle.getString("Appointment") + " " + Main.resourceBundle.getString("ID"));
+        TitleLabel.setText(Main.resourceBundle.getString("Title"));
+        DescriptionLabel.setText(Main.resourceBundle.getString("Description"));
+        LocationLabel.setText(Main.resourceBundle.getString("Location"));
+        ContactLabel.setText(Main.resourceBundle.getString("Contact"));
+        TypeLabel.setText(Main.resourceBundle.getString("Type"));
+        CustomerIDLabel.setText(Main.resourceBundle.getString("Customer") + " " + Main.resourceBundle.getString("ID"));
+        StartTimeLabel.setText(Main.resourceBundle.getString("StartTime"));
+        StartDateLabel.setText(Main.resourceBundle.getString("StartDate"));
+        EndTimeLabel.setText(Main.resourceBundle.getString("EndTime"));
+        EndDateLabel.setText(Main.resourceBundle.getString("EndDate"));
+        UserIDLabel.setText(Main.resourceBundle.getString("User") + " " + Main.resourceBundle.getString("ID"));
+        AddButton.setText(Main.resourceBundle.getString("Add"));
+        CancelButton.setText(Main.resourceBundle.getString("Cancel"));
+
+        ComboStartTime.setItems(fill_start_end_combo());
+        ComboEndTime.setItems(fill_start_end_combo());
+
         UserIDField.setText(String.valueOf(userid));
         UserIDField.setEditable(false);
         IDField.setEditable(false);
+
         try {
             ComboCustomerID.setItems(fill_customer_combo());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-
     }
-    public static void checkOverlap(int customer_id, Timestamp appointment_start, Timestamp appointment_end) throws SQLException {
-        PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT * FROM Appointments WHERE Customer_ID = ?");
-        preparedStatement.setInt(1, customer_id);
+    public static void checkOverlap(Timestamp appointment_start, Timestamp appointment_end) throws SQLException {
+
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT * FROM Appointments");
         ResultSet resultSet = preparedStatement.executeQuery();
+
         while (resultSet.next()) {
-            if(resultSet.getTimestamp("Start").after(appointment_start) && resultSet.getTimestamp("Start").before(appointment_end)) {
+            if(resultSet.getTimestamp("Start").after(appointment_start) && resultSet.getTimestamp("End").before(appointment_end)) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setHeaderText("Overlapping Appointments");
-                alert.setTitle("Warning Appointments Overlap");
-                alert.setContentText("The customers appointments have been overbooked please change start and end times");
+                alert.setHeaderText(Main.resourceBundle.getString("checkoverlapAlertHeader"));
+                alert.setTitle(Main.resourceBundle.getString("checkoverlapAlertTitle"));
+                alert.setContentText(Main.resourceBundle.getString("checkoverlapAlertText"));
                 alert.showAndWait();
             }
         }
     }
+
+    public static void checkTime(LocalTime t){
+        if(t.isBefore(LocalTime.of(8,00)) || t.isAfter(LocalTime.of(22,00))){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(Main.resourceBundle.getString("checktimeAlertText"));
+            alert.setTitle(Main.resourceBundle.getString("checktimeAlertTitle"));
+            alert.setContentText(Main.resourceBundle.getString("checktimeAlertHeader"));
+            alert.showAndWait();
+
+        }
+
+    }
     public void OnActionAdd(ActionEvent actionEvent) throws SQLException, IOException {
+
         LocalDate localDate = LocalDate.now();
 
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement( "INSERT INTO APPOINTMENTS (title, description, location, type, start, end, create_date, created_by,last_update, last_updated_by, customer_id, user_id, contact_id)"
@@ -100,11 +152,12 @@ public class AddAppointmentController implements Initializable {
         preparedStatement.setInt(11,ComboCustomerID.getValue());
         preparedStatement.setInt(12,LoginController.user.getUser_ID());
         preparedStatement.setInt(13,LoginController.user.getUser_ID());
-        Timestamp appointment_start = Timestamp.valueOf(LocalDateTime.of(StartDate.getValue(),ComboStartTime.getValue()));
-        Timestamp appointment_end = Timestamp.valueOf(LocalDateTime.of(EndDate.getValue(), ComboEndTime.getValue()));
-        checkOverlap(ComboCustomerID.getValue(),appointment_start, appointment_end);
+
+
+
+
         boolean result = preparedStatement.execute();
-        System.out.println("Appointment Added");
+
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));
         stage.setScene(new Scene(scene));
@@ -117,12 +170,13 @@ public class AddAppointmentController implements Initializable {
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle("Appointments");
+        stage.setTitle("");
         stage.show();
 
     }
 
     private ObservableList<LocalTime> fill_start_end_combo(){
+
         LocalTime localTime = LocalTime.of(1,0,0);
         while(localTime != LocalTime.of(23,0,0) ) {
             localTime = localTime.plusMinutes(15);
@@ -131,12 +185,26 @@ public class AddAppointmentController implements Initializable {
         }
         return startList;
     }
+
     private ObservableList<Integer> fill_customer_combo() throws SQLException {
+
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT CUSTOMER_ID FROM CUSTOMERS");
         ResultSet resultSet = preparedStatement.executeQuery();
+
         while(resultSet.next()) {
             custList.add(resultSet.getInt("CUSTOMER_ID"));
         }
     return custList;
+    }
+
+    public void OnActionStartTime(ActionEvent actionEvent){
+        checkTime(ComboStartTime.getValue());
+
+    }
+
+    public void OnActionEndDate(ActionEvent actionEvent) throws SQLException {
+        Timestamp appointment_start = Timestamp.valueOf(LocalDateTime.of(StartDate.getValue(),ComboStartTime.getValue()));
+        Timestamp appointment_end = Timestamp.valueOf(LocalDateTime.of(EndDate.getValue(), ComboEndTime.getValue()));
+        checkOverlap(appointment_start, appointment_end);
     }
 }

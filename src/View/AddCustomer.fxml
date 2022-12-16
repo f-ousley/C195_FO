@@ -18,19 +18,19 @@
       </VBox>
       <VBox layoutX="89.0" layoutY="39.0" prefHeight="252.0" prefWidth="81.0" spacing="30.0">
          <children>
-            <Label text="ID" />
-            <Label layoutX="10.0" layoutY="10.0" text="Name" />
-            <Label layoutX="10.0" layoutY="27.0" text="Address" />
-            <Label layoutX="10.0" layoutY="44.0" text="Postal Code" />
-            <Label layoutX="10.0" layoutY="61.0" text="Phone" />
-            <Label layoutX="10.0" layoutY="78.0" text="Country" />
-            <Label layoutX="10.0" layoutY="245.0" text="State/Province" />
+            <Label fx:id="IDLabel" text="ID" />
+            <Label fx:id="NameLabel" layoutX="10.0" layoutY="10.0" text="Name" />
+            <Label fx:id="AddressLabel" layoutX="10.0" layoutY="27.0" text="Address" />
+            <Label fx:id="PostalCodeLabel" layoutX="10.0" layoutY="44.0" text="Postal Code" />
+            <Label fx:id="PhoneLabel" layoutX="10.0" layoutY="61.0" text="Phone" />
+            <Label fx:id="CountryLabel" layoutX="10.0" layoutY="78.0" text="Country" />
+            <Label fx:id="StateProvinceLabel" layoutX="10.0" layoutY="245.0" text="State/Province" />
          </children>
       </VBox>
       <HBox layoutX="14.0" layoutY="343.0" prefHeight="43.0" prefWidth="126.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#OnActionAdd" prefHeight="25.0" prefWidth="51.0" text="Add" />
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionCancelCustomer" text="Cancel" />
+            <Button fx:id="AddButton" mnemonicParsing="false" onAction="#OnActionAdd" prefHeight="25.0" prefWidth="51.0" text="Add" />
+            <Button fx:id="CancelButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionCancelCustomer" text="Cancel" />
          </children>
       </HBox>
    </children>

@@ -1,6 +1,7 @@
 package Controller;
 
 import DBHelper.JDBC;
+import FO_program.Main;
 import Model.Contact;
 import Model.Record;
 import javafx.collections.FXCollections;
@@ -16,7 +17,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -29,11 +29,10 @@ public class RecordsController implements Initializable {
     Stage stage;
     Parent scene;
 
-
     public TableView CustomRecordTable;
     public TableColumn CustomNameColumn;
     public TableColumn CustomTotalColumn;
-
+    public TableView<Contact> ContactTableView;
     public TableColumn ContactAppointmentColumn;
     public TableColumn ContactTitleColumn;
     public TableColumn ContactTypeColumn;
@@ -41,17 +40,18 @@ public class RecordsController implements Initializable {
     public TableColumn ContactStartColumn;
     public TableColumn ContactEndColumn;
     public TableColumn ContactCustomerColumn;
-    public ComboBox ContactCombo;
     public TableColumn ContactNameColumn;
-    public TableView<Contact> ContactTableView;
-
+    public ComboBox ContactCombo;
     public TableColumn TypeMonthColumn;
     public TableColumn TypeColumn;
     public TableColumn TypeTotalColumn;
     public TableView TypeTableView;
+    public Button CancelButton;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        CancelButton.setText(Main.resourceBundle.getString("Cancel"));
         ContactNameColumn.setCellValueFactory(new PropertyValueFactory<>("Contact_Name"));
         ContactAppointmentColumn.setCellValueFactory(new PropertyValueFactory<>("Appointment_ID"));
         ContactTitleColumn.setCellValueFactory(new PropertyValueFactory<>("Title"));
@@ -67,6 +67,21 @@ public class RecordsController implements Initializable {
 
         CustomNameColumn.setCellValueFactory(new PropertyValueFactory<>("Customer_Name"));
         CustomTotalColumn.setCellValueFactory(new PropertyValueFactory<>("Number"));
+
+        CancelButton.setText(Main.resourceBundle.getString("Cancel"));
+        ContactNameColumn.setText(Main.resourceBundle.getString("Contact"));
+        ContactAppointmentColumn.setText(Main.resourceBundle.getString("Appointment") + " " + Main.resourceBundle.getString("ID"));
+        ContactTitleColumn.setText(Main.resourceBundle.getString("Title"));
+        ContactTypeColumn.setText(Main.resourceBundle.getString("Type"));
+        ContactDescriptionColumn.setText(Main.resourceBundle.getString("Description"));
+        ContactStartColumn.setText(Main.resourceBundle.getString("StartTime"));
+        ContactEndColumn.setText(Main.resourceBundle.getString("EndTime"));
+        ContactCustomerColumn.setText(Main.resourceBundle.getString("Customer"));
+
+        TypeMonthColumn.setText(Main.resourceBundle.getString("Month"));
+        TypeColumn.setText(Main.resourceBundle.getString("Type"));
+        TypeTotalColumn.setText(Main.resourceBundle.getString("Total"));
+
         try {
             setContactCombo();
             setTypeTable();
@@ -74,7 +89,6 @@ public class RecordsController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
     }
 
     public void setRecordTable() throws SQLException {
@@ -98,6 +112,7 @@ public class RecordsController implements Initializable {
         }
         TypeTableView.setItems(typelist);
     }
+
     public void setContactCombo() throws SQLException {
         ObservableList<String> contact_names = FXCollections.observableArrayList();
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("Select Distinct Contact_Name From Contacts");
@@ -129,7 +144,7 @@ public class RecordsController implements Initializable {
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/CustomerRecordsAppointments.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle("Add Appointment");
+        stage.setTitle("");
         stage.show();
     }
 }

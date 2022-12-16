@@ -3,7 +3,6 @@ package Controller;
 import DBHelper.JDBC;
 import FO_program.Main;
 import Model.*;
-import com.mysql.cj.xdevapi.Warning;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -90,6 +88,21 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         AppointmentMonthRadio.setSelected(false);
         User user = LoginController.user;
 
+        CustomerIDColumn.setText(Main.resourceBundle.getString("CustomerIDColumn"));
+        CustomerNameColumn.setText(Main.resourceBundle.getString("CustomerNameColumn"));
+        CustomerAddressColumn.setText(Main.resourceBundle.getString("CustomerAddressColumn"));
+        CustomerPostalCodeColumn.setText(Main.resourceBundle.getString("CustomerPostalCodeColumn"));
+        CustomerPhoneColumn.setText(Main.resourceBundle.getString("CustomerPhoneColumn"));
+        CustomerCreateDateColumn.setText(Main.resourceBundle.getString("CustomerCreateDateColumn"));
+        CustomerCreatedByColumn.setText(Main.resourceBundle.getString("CustomerCreatedByColumn"));
+        CustomerLastUpdateColumn.setText(Main.resourceBundle.getString("CustomerLastUpdateColumn"));
+        CustomerUpdatedByColumn.setText(Main.resourceBundle.getString("CustomerUpdatedByColumn"));
+        CustomerDivisionIDColumn.setText(Main.resourceBundle.getString("CustomerDivisionIDColumn"));
+        CustomerCountryIDColumn.setText(Main.resourceBundle.getString("CustomerCountryIDColumn"));
+        CustomerCountryColumn.setText(Main.resourceBundle.getString("CustomerCountryColumn"));
+        CustomerCountryColumn.setText(Main.resourceBundle.getString("CustomerCountryColumn"));
+        CustomerDivisionColumn.setText(Main.resourceBundle.getString("CustomerDivisionColumn"));
+
         CustomerIDColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Customer_ID"));
         CustomerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Customer_Name"));
         CustomerAddressColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Address"));
@@ -104,6 +117,21 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         CustomerCountryColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Country"));
         CustomerDivisionColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("Division"));
         CustomerTableView.setItems(getDataCustomers());
+
+        AppointmentIDColumn.setText(Main.resourceBundle.getString("AppointmentIDColumn"));
+        AppointmentTitleColumn.setText(Main.resourceBundle.getString("AppointmentTitleColumn"));
+        AppointmentDescriptionColumn.setText(Main.resourceBundle.getString("AppointmentDescriptionColumn"));
+        AppointmentLocationColumn.setText(Main.resourceBundle.getString("AppointmentLocationColumn"));
+        AppointmentTypeColumn.setText(Main.resourceBundle.getString("AppointmentTypeColumn"));
+        AppointmentStartDateColumn.setText(Main.resourceBundle.getString("AppointmentStartDateColumn"));
+        AppointmentEndDateColumn.setText(Main.resourceBundle.getString("AppointmentEndDateColumn"));
+        AppointmentCreateDateColumn.setText(Main.resourceBundle.getString("AppointmentCreateDateColumn"));
+        AppointmentCreatedByColumn.setText(Main.resourceBundle.getString("AppointmentCreatedByColumn"));
+        AppointmentLastUpdateColumn.setText(Main.resourceBundle.getString("AppointmentLastUpdateColumn"));
+        AppointmentUpdatedByColumn.setText(Main.resourceBundle.getString("AppointmentUpdatedByColumn"));
+        AppointmentCustomerIDColumn.setText(Main.resourceBundle.getString("AppointmentCustomerIDColumn"));
+        AppointmentUserIDColumn.setText(Main.resourceBundle.getString("AppointmentUserIDColumn"));
+        AppointmentContactIDColumn.setText(Main.resourceBundle.getString("AppointmentContactIDColumn"));
 
         AppointmentIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("Appointment_ID"));
         AppointmentTitleColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("Title"));
@@ -132,10 +160,10 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         RecordsButton.setText(Main.resourceBundle.getString("Records"));
         AppointmentMonthRadio.setText(Main.resourceBundle.getString("Month"));
         AppointmentWeekRadio.setText(Main.resourceBundle.getString("Week"));
-
     }
 
     public static ObservableList<Customer> getDataCustomers() {
+
         ObservableList<Customer> observableList = FXCollections.observableArrayList();
         ObservableList<Customer> custlist = FXCollections.observableArrayList();
         PreparedStatement preparedStatement;
@@ -155,6 +183,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         return  observableList;
     }
     public static ObservableList<Appointment> getDataAppointments(User user) {
+
         LocalDate datenow = LocalDate.now();
         LocalDate oneweekout = datenow.plusWeeks(1);
         LocalDate onemonthout = datenow.plusMonths(1);
@@ -187,8 +216,6 @@ public class CustomerRecordsAppointmentsController implements Initializable {
                 }
 
             }
-            checkMinuteWarning(weeklylist);
-            System.out.println(weeklylist);
             return weeklylist;
         } else {
             ObservableList<Appointment> monthlylist = FXCollections.observableArrayList();
@@ -202,6 +229,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         }
     }
     public void OnActionAddCustomer(ActionEvent actionEvent) throws IOException {
+
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
         stage.setScene(new Scene(scene));
@@ -210,6 +238,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     }
 
     public void OnActionUpdateCustomer(ActionEvent actionEvent) throws IOException {
+
         customer = new Customer();
         customer.setCustomer_ID(CustomerTableView.getSelectionModel().getSelectedItem().getCustomer_ID());
         customer.setCustomer_Name(CustomerTableView.getSelectionModel().getSelectedItem().getCustomer_Name());
@@ -222,24 +251,26 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         customer.setLast_Updated_By(LoginController.user.getUsername());
         customer.setDivision_ID(CustomerTableView.getSelectionModel().getSelectedItem().getDivision_ID());
         customer.setCountry_ID(CustomerTableView.getSelectionModel().getSelectedItem().getCountry_ID());
-        System.out.println("Customer Created");
+
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/UpdateCustomer.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle("Update Customer");
+        stage.setTitle(Main.resourceBundle.getString("Update" ) + " " + Main.resourceBundle.getString("Customer"));
         stage.show();
     }
 
     public void OnActionAddAppointment(ActionEvent actionEvent) throws IOException {
+
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/AddAppointment.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle("Add Appointment");
+        stage.setTitle(Main.resourceBundle.getString("Add") + " " + Main.resourceBundle.getString("Appointment"));
         stage.show();
 
     }
 
     public void OnActionUpdateAppointment(ActionEvent actionEvent) throws IOException {
+
         appointment = new Appointment();
         appointment.setAppointment_ID(AppointmentsTableView.getSelectionModel().getSelectedItem().getAppointment_ID());
         appointment.setTitle(AppointmentsTableView.getSelectionModel().getSelectedItem().getTitle());
@@ -258,12 +289,10 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/UpdateAppointment.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle("Add Appointment");
+        stage.setTitle(Main.resourceBundle.getString("Update") + " " + Main.resourceBundle.getString("Appointment"));
         stage.show();
 
     }
-
-    
 
     public void OnActionDeleteAppointment(ActionEvent actionEvent) throws SQLException {
         int appt;
@@ -290,9 +319,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         for (Appointment apt : appts) {
             if (apt.getStart().toLocalDateTime().isAfter(LocalDateTime.now()) && apt.getStart().toLocalDateTime().isBefore(LocalDateTime.now().plusMinutes(15))) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Upcoming Appointment");
-                alert.setContentText("You have an Appointment ID:" + apt.getAppointment_ID() + " Start:" + apt.getStart().toLocalDateTime());
-                alert.setHeaderText("Appointment Alert");
+                alert.setTitle(Main.resourceBundle.getString("alert2title"));
+                alert.setContentText(Main.resourceBundle.getString("alert2text") + apt.getAppointment_ID() + Main.resourceBundle.getString("alert2text2") + apt.getStart().toLocalDateTime());
+                alert.setHeaderText(Main.resourceBundle.getString("alert2header"));
                 alert.showAndWait();
                 isWarning = true;
             }
@@ -305,6 +334,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
             alert.showAndWait();
         }
     }
+
     public void CustomerTableOnMouseClicked(MouseEvent mouseEvent) {
     }
 
@@ -324,7 +354,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/Records.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle("Records");
+        stage.setTitle(Main.resourceBundle.getString("Records"));
         stage.show();
     }
 }

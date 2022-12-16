@@ -14,9 +14,9 @@
       </TableView>
       <TableView fx:id="ContactTableView" layoutX="41.0" layoutY="303.0" prefHeight="200.0" prefWidth="564.0">
          <columns>
-            <TableColumn fx:id="ContactNameColumn" prefWidth="75.0" text="Contact" />
-            <TableColumn fx:id="ContactAppointmentColumn" prefWidth="75.0" text="Appointment ID" />
-            <TableColumn fx:id="ContactTitleColumn" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="ContactNameColumn" prefWidth="65.0" text="Contact" />
+            <TableColumn fx:id="ContactAppointmentColumn" prefWidth="99.0" text="Appointment ID" />
+            <TableColumn fx:id="ContactTitleColumn" prefWidth="61.0" text="Title" />
             <TableColumn fx:id="ContactTypeColumn" prefWidth="75.0" text="Type" />
             <TableColumn fx:id="ContactDescriptionColumn" prefWidth="75.0" text="Description" />
             <TableColumn fx:id="ContactStartColumn" prefWidth="75.0" text="Start" />
@@ -31,6 +31,6 @@
          </columns>
       </TableView>
       <ComboBox fx:id="ContactCombo" layoutX="622.0" layoutY="303.0" onAction="#OnActionContact" prefHeight="25.0" prefWidth="116.0" />
-      <Button layoutX="364.0" layoutY="747.0" mnemonicParsing="false" onAction="#OnActionCancel" text="Cancel" />
+      <Button fx:id="CancelButton" layoutX="364.0" layoutY="747.0" mnemonicParsing="false" onAction="#OnActionCancel" text="Cancel" />
    </children>
 </AnchorPane>

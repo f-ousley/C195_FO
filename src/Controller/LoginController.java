@@ -96,7 +96,6 @@ public class LoginController implements Initializable {
         stage = (Stage) ((Button) (actionEvent.getSource())).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle(Main.resourceBundle.getString("Appointments"));
         stage.show();
     }
 

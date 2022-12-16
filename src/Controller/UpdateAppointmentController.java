@@ -1,6 +1,7 @@
 package Controller;
 
 import DBHelper.JDBC;
+import FO_program.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,29 +9,24 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.chrono.Chronology;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.ResourceBundle;
 
 public class UpdateAppointmentController implements Initializable {
+
+    Stage stage;
+    Parent scene;
 
     public TextField IDTextField;
     public TextField TitleTextField;
@@ -44,11 +40,24 @@ public class UpdateAppointmentController implements Initializable {
     public TextField UserIDTextField;
     public ComboBox StartTime;
     public ComboBox EndTime;
-    Stage stage;
-    Parent scene;
+    public Button UpdateButton;
+    public Button CancelButton;
+    public Label AppointmentIDLabel;
+    public Label TitleLabel;
+    public Label DescriptionLabel;
+    public Label LocationLabel;
+    public Label ContactLabel;
+    public Label TypeLabel;
+    public Label CustomerIDLabel;
+    public Label StartTimeLabel;
+    public Label StartDateLabel;
+    public Label EndTimeLabel;
+    public Label EndDateLabel;
+    public Label UserIDLabel;
 
     ObservableList<String> startList = FXCollections.observableArrayList();
     ObservableList<String> endList =  FXCollections.observableArrayList();
+
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @Override
@@ -63,7 +72,6 @@ public class UpdateAppointmentController implements Initializable {
         ContactTextField.setText(String.valueOf(CustomerRecordsAppointmentsController.appointment.getContact_ID()));
         TypeTextField.setText(CustomerRecordsAppointmentsController.appointment.getType());
         CustomerIDTextField.setText(CustomerRecordsAppointmentsController.appointment.getCustomer_ID());
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDate = CustomerRecordsAppointmentsController.appointment.getStart().toLocalDateTime().toLocalDate();
         LocalTime startTime = CustomerRecordsAppointmentsController.appointment.getStart().toLocalDateTime().toLocalTime();
         LocalTime endTime = CustomerRecordsAppointmentsController.appointment.getEnd().toLocalDateTime().toLocalTime();
@@ -74,6 +82,20 @@ public class UpdateAppointmentController implements Initializable {
         EndTime.getSelectionModel().select(endTime);
         UserIDTextField.setText(CustomerRecordsAppointmentsController.appointment.getUser_ID());
 
+        AppointmentIDLabel.setText(Main.resourceBundle.getString("Appointment") + " " + Main.resourceBundle.getString("ID"));
+        TitleLabel.setText(Main.resourceBundle.getString("Title"));
+        DescriptionLabel.setText(Main.resourceBundle.getString("Description"));
+        LocationLabel.setText(Main.resourceBundle.getString("Location"));
+        ContactLabel.setText(Main.resourceBundle.getString("Contact"));
+        TypeLabel.setText(Main.resourceBundle.getString("Type"));
+        CustomerIDLabel.setText(Main.resourceBundle.getString("Customer") + " " + Main.resourceBundle.getString("ID"));
+        StartTimeLabel.setText(Main.resourceBundle.getString("StartTime"));
+        StartDateLabel.setText(Main.resourceBundle.getString("StartDate"));
+        EndTimeLabel.setText(Main.resourceBundle.getString("EndTime"));
+        EndDateLabel.setText(Main.resourceBundle.getString("EndDate"));
+        UserIDLabel.setText(Main.resourceBundle.getString("User") + " " + Main.resourceBundle.getString("ID"));
+        UpdateButton.setText(Main.resourceBundle.getString("Update"));
+        CancelButton.setText(Main.resourceBundle.getString("Cancel"));
     }
 
     public void OnActionCancel(ActionEvent actionEvent) throws IOException {
@@ -81,7 +103,7 @@ public class UpdateAppointmentController implements Initializable {
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle("Appointments");
+        stage.setTitle("");
         stage.show();
     }
 
@@ -107,7 +129,6 @@ public class UpdateAppointmentController implements Initializable {
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));
         stage.setScene(new Scene(scene));
-        stage.setTitle("Appointments");
         stage.show();
     }
 

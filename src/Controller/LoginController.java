@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +26,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 
@@ -43,18 +41,15 @@ public class LoginController implements Initializable {
     private Label LoginRegionLabel;
     public TextField UsernameField;
     public TextField PasswordField;
-    private Object String;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Locale locale = Locale.getDefault();
         ZoneId  zoneId = ZoneId.systemDefault();
-        String country = locale.getDisplayCountry();
-        LoginRegionLabel.setText(country + "/" + zoneId);
+        LoginRegionLabel.setText(zoneId.toString());
         UsernameField.setText(Main.resourceBundle.getString("Username"));
         PasswordField.setText(Main.resourceBundle.getString("Password"));
         LoginButton.setText(Main.resourceBundle.getString("Login"));
-        //stage.setTitle(Main.resourceBundle.getString("Login"));
+
     }
 
     public void OnActionLogin(javafx.event.ActionEvent actionEvent) throws IOException, SQLException {

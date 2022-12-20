@@ -331,7 +331,8 @@ public class CustomerRecordsAppointmentsController implements Initializable {
             alert.setTitle(Main.resourceBundle.getString("alert1title"));
             alert.setContentText(Main.resourceBundle.getString("alert1text"));
             alert.setHeaderText(Main.resourceBundle.getString("alert1header"));
-            alert.showAndWait();
+            AlertInterface AI = a -> a.showAndWait();
+            AI.show_alert(alert);
         }
     }
 

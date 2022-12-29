@@ -35,15 +35,19 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     public Label CustomerLabel;
     public Label AppointmentsLabel;
     public Button RecordsButton;
+
     Stage stage;
     Parent scene;
     public static Customer customer;
     public static Appointment appointment;
     private static boolean isWeekly;
+    private static boolean isMonthly;
+    private static boolean isAll;
     public static boolean isWarning = false;
     public RadioButton AppointmentMonthRadio;
     public ToggleGroup MonthWeekTG;
     public RadioButton AppointmentWeekRadio;
+    public RadioButton AppointmentAllRadio;
 
     @FXML
     public TableView<Customer> CustomerTableView;
@@ -84,8 +88,11 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         MonthWeekTG = new ToggleGroup();
         AppointmentMonthRadio.setToggleGroup(MonthWeekTG);
         AppointmentWeekRadio.setToggleGroup(MonthWeekTG);
-        AppointmentWeekRadio.setSelected(true);
+        AppointmentAllRadio.setToggleGroup(MonthWeekTG);
+        AppointmentWeekRadio.setSelected(false);
         AppointmentMonthRadio.setSelected(false);
+        AppointmentAllRadio.setSelected(true);
+
         User user = LoginController.user;
 
         CustomerIDColumn.setText(Main.resourceBundle.getString("CustomerIDColumn"));
@@ -147,7 +154,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         AppointmentCustomerIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("Customer_ID"));
         AppointmentUserIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("User_ID"));
         AppointmentContactIDColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("Contact_ID"));
-        isWeekly = true;
+        isAll = true;
         AppointmentsTableView.setItems(getDataAppointments(user));
         AddCustomerButton.setText(Main.resourceBundle.getString("Add"));
         UpdateCustomerButton.setText(Main.resourceBundle.getString("Update"));
@@ -217,7 +224,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
 
             }
             return weeklylist;
-        } else {
+        }
+        if (isMonthly)
+        {
             ObservableList<Appointment> monthlylist = FXCollections.observableArrayList();
             for(Appointment appt : observableList) {
                 if(appt.getStart().toLocalDateTime().isAfter(LocalDateTime.now()) && appt.getStart().toLocalDateTime().isBefore(LocalDateTime.of(onemonthout, LocalTime.now()))){
@@ -226,6 +235,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
             }
             System.out.println(monthlylist);
             return monthlylist;
+        }
+        else {
+            return observableList;
         }
     }
     public void OnActionAddCustomer(ActionEvent actionEvent) throws IOException {
@@ -340,7 +352,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     }
 
     public void OnActionMonthly(ActionEvent actionEvent) {
+        isMonthly = true;
         isWeekly = false;
+        isAll = false;
         AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
 
 
@@ -348,6 +362,8 @@ public class CustomerRecordsAppointmentsController implements Initializable {
 
     public void OnActionWeekly(ActionEvent actionEvent) {
         isWeekly = true;
+        isMonthly = false;
+        isAll = true;
         AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
     }
 
@@ -357,5 +373,12 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.setTitle(Main.resourceBundle.getString("Records"));
         stage.show();
+    }
+
+    public void OnActionAll(ActionEvent actionEvent) {
+        isAll = true;
+        isWeekly = false;
+        isMonthly = false;
+        AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
     }
 }

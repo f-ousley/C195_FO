@@ -73,7 +73,7 @@ public class AddAppointmentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        AddButton.setDisable(true);
         User user = LoginController.user;
         int userid = user.getUser_ID();
 
@@ -118,6 +118,7 @@ public class AddAppointmentController implements Initializable {
                 alert.setContentText(Main.resourceBundle.getString("checkoverlapAlertText"));
                 alert.showAndWait();
             }
+            //if(resultSet.getTimestamp("Start").before(app))
         }
     }
 

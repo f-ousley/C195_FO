@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="580.0" prefWidth="579.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddAppointmentController">
+<AnchorPane prefHeight="580.0" prefWidth="579.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddAppointmentController">
    <children>
       <VBox layoutX="290.0" layoutY="47.0" prefHeight="346.0" prefWidth="100.0" spacing="15.0">
          <children>
@@ -11,7 +11,7 @@
             <TextField fx:id="TitleField" layoutX="10.0" layoutY="10.0" />
             <TextField fx:id="DescriptionField" layoutX="10.0" layoutY="35.0" />
             <TextField fx:id="LocationField" layoutX="10.0" layoutY="60.0" />
-            <TextField fx:id="ContactField" layoutX="10.0" layoutY="85.0" />
+            <ComboBox fx:id="ContactCombo" prefWidth="150.0" />
             <TextField fx:id="TypeField" layoutX="10.0" layoutY="110.0" />
             <ComboBox fx:id="ComboCustomerID" layoutX="10.0" layoutY="135.0" prefWidth="100.0" />
             <ComboBox fx:id="ComboStartTime" onAction="#OnActionStartTime" prefWidth="150.0" />
@@ -39,7 +39,7 @@
       </VBox>
       <HBox layoutX="221.0" layoutY="536.0" prefHeight="25.0" prefWidth="137.0" spacing="10.0">
          <children>
-            <Button fx:id="AddButton" mnemonicParsing="false" onAction="#OnActionAdd" prefWidth="52.0" text="Add" />
+            <Button fx:id="AddAppointmentButton" mnemonicParsing="false" onAction="#OnActionAdd" prefWidth="52.0" text="Add" />
             <Button fx:id="CancelButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#OnActionCancel" text="Cancel" />
          </children>
       </HBox>

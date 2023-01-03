@@ -25,7 +25,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-
+/** This class controls adding a customer to database functionality.*/
 public class AddCustomerController implements Initializable {
 
     Stage stage;

@@ -2,7 +2,7 @@ package DBHelper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-
+/** This class connects to the MySQL database.*/
 public abstract class JDBC {
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
@@ -13,7 +13,7 @@ public abstract class JDBC {
     private static final String userName = "sqlUser"; //Username
     private static final String password = "Passw0rd!"; //Password
     public static Connection connection; //Connection Interface
-
+    /** This method opens a connection with MySQL database.*/
     public static void openConnection() {
         try {
             Class.forName(driver); //Locate Driver
@@ -24,6 +24,7 @@ public abstract class JDBC {
             System.out.println("Error:" + e.getMessage());
         }
     }
+    /** This method closes the connection to MySQL database.*/
     public static void closeConnection() {
         try {
             connection.close();

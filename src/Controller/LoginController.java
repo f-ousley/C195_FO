@@ -29,7 +29,7 @@ import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 
-
+/** This class controls app login functionality.*/
 public class LoginController implements Initializable {
 
     public Button LoginButton;

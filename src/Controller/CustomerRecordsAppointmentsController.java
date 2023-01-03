@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.ResourceBundle;
-
+/** This class shows customer record and appointment data.*/
 public class CustomerRecordsAppointmentsController implements Initializable {
 
     public Button AddCustomerButton;

@@ -20,7 +20,7 @@ import java.net.URL;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
-
+/** This class controls customer update functionality.*/
 public class UpdateCustomerController implements Initializable {
 
     Stage stage;
@@ -49,6 +49,7 @@ public class UpdateCustomerController implements Initializable {
 
 
     @Override
+    /** This method initializes text in the scene.*/
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         IDLabel.setText(Main.resourceBundle.getString("ID"));
@@ -76,12 +77,14 @@ public class UpdateCustomerController implements Initializable {
             throwables.printStackTrace();
         }
     }
-
+    /** This method sets text in Division combobox
+     @param divisionlist list of divisions from database.*/
     public void setDivisionCombo(ObservableList<String> divisionlist){
         DivisionCombo.setItems(divisionlist);
         System.out.println(divisionlist);
     }
-
+    /** This method queries the database for divisions based on country
+     @param country .*/
     public void getDivisionList(int country) throws SQLException {
 
         ObservableList<String> divisions =  FXCollections.observableArrayList();
@@ -95,6 +98,8 @@ public class UpdateCustomerController implements Initializable {
         }
         setDivisionCombo(divisions);
     }
+    /** This method queries the database for countries.
+     @throws SQLException*/
     public ObservableList<String> getCountryList() throws SQLException {
 
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT Country FROM Countries");
@@ -107,7 +112,8 @@ public class UpdateCustomerController implements Initializable {
         System.out.println(countryList);
         return countryList;
     }
-
+    /** This method cancels update customer and returns to home screen
+     @param actionEvent Button Click*/
     public void OnActionCancelCustomer(ActionEvent actionEvent) throws IOException {
 
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
@@ -116,7 +122,8 @@ public class UpdateCustomerController implements Initializable {
         stage.setTitle("");
         stage.show();
     }
-
+    /** This method updates MySQL database customer table.
+     @param actionEvent Button Click*/
     public void OnActionUpdateCustomer(ActionEvent actionEvent) throws IOException, SQLException {
 
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("update CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? "
@@ -138,16 +145,20 @@ public class UpdateCustomerController implements Initializable {
         stage.setTitle("Add Customer");
         stage.show();
     }
-
+    /** This method retrieves division list based on country selection
+     @param actionEvent Button Click
+     @throws SQLException*/
     public void OnActionCountrySelected(ActionEvent actionEvent) throws SQLException {
 
       String country = String.valueOf(CountryCombo.getSelectionModel().getSelectedItem());
       CustomerRecordsAppointmentsController.customer.setCountry(country);
-      if (country.equals("U.S")){getDivisionList(1);System.out.println("USA");}
+      if (country.equals("U.S")){getDivisionList(1);}
       if (country.equals("UK")){getDivisionList(2);}
       if (country.equals("Canada")){getDivisionList(3);}
     }
-
+    /** This method sets division and division_id for a customer object
+     @param actionEvent Button Click
+     @throws SQLException*/
     public void OnActionDivision(ActionEvent actionEvent) throws SQLException {
 
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT Division_ID FROM First_Level_Divisions WHERE Division = ?");

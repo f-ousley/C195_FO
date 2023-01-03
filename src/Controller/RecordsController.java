@@ -23,7 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
+/** This class creates records for rubric requirement.*/
 public class RecordsController implements Initializable {
 
     Stage stage;

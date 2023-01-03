@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="580.0" prefWidth="579.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.UpdateAppointmentController">
+<AnchorPane prefHeight="580.0" prefWidth="579.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.UpdateAppointmentController">
     <children>
         <VBox layoutX="290.0" layoutY="47.0" prefHeight="346.0" prefWidth="100.0" spacing="15.0">
             <children>
@@ -11,13 +11,13 @@
                 <TextField fx:id="TitleTextField" layoutX="10.0" layoutY="10.0" />
                 <TextField fx:id="DescriptionTextField" layoutX="10.0" layoutY="35.0" />
                 <TextField fx:id="LocationTextField" layoutX="10.0" layoutY="60.0" />
-                <TextField fx:id="ContactTextField" layoutX="10.0" layoutY="85.0" />
+                <ComboBox fx:id="ContactCombo" prefWidth="150.0" />
                 <TextField fx:id="TypeTextField" layoutX="10.0" layoutY="110.0" />
                 <TextField fx:id="CustomerIDTextField" layoutX="10.0" layoutY="135.0" />
-                <ComboBox fx:id="StartTime" prefWidth="150.0" />
-                <DatePicker fx:id="StartTextField" />
-                <ComboBox fx:id="EndTime" prefWidth="150.0" />
-                <DatePicker fx:id="EndTextField" />
+                <ComboBox fx:id="ComboStartTime" prefWidth="150.0" />
+                <DatePicker fx:id="StartDate" />
+                <ComboBox fx:id="ComboEndTime" prefWidth="150.0" />
+                <DatePicker fx:id="EndDate" onAction="#OnActionEndDate" />
                 <TextField fx:id="UserIDTextField" layoutX="10.0" layoutY="160.0" />
             </children>
         </VBox>

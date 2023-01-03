@@ -68,6 +68,7 @@ public class UpdateAppointmentController implements Initializable {
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @Override
+    /** This method initializes the text in the scene.*/
     public void initialize(URL url, ResourceBundle resourceBundle) {
         IDTextField.setEditable(false);
         ComboStartTime.setItems(fill_start_end_combo());
@@ -110,7 +111,8 @@ public class UpdateAppointmentController implements Initializable {
         UpdateButton.setText(Main.resourceBundle.getString("Update"));
         CancelButton.setText(Main.resourceBundle.getString("Cancel"));
     }
-
+    /** This method loads the home screen.
+     * @param actionEvent Button Click*/
     public void OnActionCancel(ActionEvent actionEvent) throws IOException {
 
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
@@ -119,8 +121,11 @@ public class UpdateAppointmentController implements Initializable {
         stage.setTitle("");
         stage.show();
     }
-
-    public void OnActionUpdate(ActionEvent actionEvent) throws SQLException, ParseException, IOException {
+    /** This method updates an Appointment in MySQL database.
+     * @param actionEvent Button Click
+     * @throws SQLException
+     * @throws IOException*/
+    public void OnActionUpdate(ActionEvent actionEvent) throws SQLException, IOException {
         LocalTime starttime = ComboStartTime.getSelectionModel().getSelectedItem();
         LocalTime endtime = ComboEndTime.getSelectionModel().getSelectedItem();
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Create_Date = ?, Created_By = ?,"
@@ -146,6 +151,9 @@ public class UpdateAppointmentController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
+    /** This method fills contact combobox with Contacts from the MySQL database.
+     * @throws SQLException
+     * @return ObservableList</Integer>*/
     private ObservableList<Integer> fill_contact_combo() throws SQLException {
 
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT CONTACT_ID FROM CONTACTS");
@@ -156,6 +164,8 @@ public class UpdateAppointmentController implements Initializable {
         }
         return contactList;
     }
+    /** This method fills start and end comboboxes with LocalTime values.
+     * @return ObservableList</LocalTime>*/
     private ObservableList<LocalTime> fill_start_end_combo(){
         LocalTime localTime = LocalTime.of(1,0,0);
         while(localTime != LocalTime.of(23,0,0) ) {
@@ -165,6 +175,12 @@ public class UpdateAppointmentController implements Initializable {
         }
         return startList;
     }
+    /** This method checks for appointment overlap error.
+     * @throws SQLException
+     * @param appointment_end
+     * @param appointment_start
+     * @param isError
+     * @return boolean isError*/
     public static boolean checkOverlap(Timestamp appointment_start, Timestamp appointment_end, boolean isError) throws SQLException  {
 
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT * FROM Appointments Where NOT Appointment_ID = ?");
@@ -177,12 +193,15 @@ public class UpdateAppointmentController implements Initializable {
                 isError = false;
             } else{
                 isError = true;
+                break;
             }
 
         }
         return isError;
     }
-
+    /** This method calls checkOverlap() method when a value is selected in the combobox and enables UpdateButton.
+     * @throws SQLException
+     * @param actionEvent selection*/
     public void OnActionEndDate(ActionEvent actionEvent) throws SQLException {
         boolean isError = false;
         Timestamp appointment_start = Timestamp.valueOf(LocalDateTime.of(StartDate.getValue(), ComboStartTime.getValue()));

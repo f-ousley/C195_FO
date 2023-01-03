@@ -50,6 +50,7 @@ public class RecordsController implements Initializable {
 
 
     @Override
+    /** This method initializes the text in the scene.*/
     public void initialize(URL url, ResourceBundle resourceBundle) {
         CancelButton.setText(Main.resourceBundle.getString("Cancel"));
         ContactNameColumn.setCellValueFactory(new PropertyValueFactory<>("Contact_Name"));
@@ -90,7 +91,8 @@ public class RecordsController implements Initializable {
             throwables.printStackTrace();
         }
     }
-
+    /** This method sets the Record TableView.
+     * @throws SQLException*/
     public void setRecordTable() throws SQLException {
         ObservableList recordlist = FXCollections.observableArrayList();
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT customers.customer_name, COUNT(*) as Number FROM customers JOIN appointments " +
@@ -101,7 +103,8 @@ public class RecordsController implements Initializable {
             CustomRecordTable.setItems(recordlist);
         }
     }
-
+    /** This method sets the Type TableView.
+     * @throws SQLException*/
     public void setTypeTable() throws SQLException {
         ObservableList typelist = FXCollections.observableArrayList();
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT MONTHNAME(Start) AS Month, appointments.Type, count(*) AS Number from appointments\n" +
@@ -112,7 +115,8 @@ public class RecordsController implements Initializable {
         }
         TypeTableView.setItems(typelist);
     }
-
+    /** This method sets the contact combobox with Contact_Name from MySQL database.
+     * @throws SQLException*/
     public void setContactCombo() throws SQLException {
         ObservableList<String> contact_names = FXCollections.observableArrayList();
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("Select Distinct Contact_Name From Contacts");
@@ -123,7 +127,9 @@ public class RecordsController implements Initializable {
         ContactCombo.setItems(contact_names);
 
     }
-
+    /** This method fills Contact TableView with contacts from MySQL database.
+     * @throws SQLException
+     * @param actionEvent Selection*/
     public void OnActionContact(ActionEvent actionEvent) throws SQLException {
         ObservableList<Contact> contact_list = FXCollections.observableArrayList();
         PreparedStatement preparedStatement  = JDBC.connection.prepareStatement("SELECT  contacts.Contact_Name, appointments.Appointment_ID, appointments.Title, appointments.Type, appointments.Description, appointments.Start, appointments.End, customers.Customer_ID FROM Appointments " +
@@ -139,7 +145,8 @@ public class RecordsController implements Initializable {
         }
         ContactTableView.setItems(contact_list);
     }
-
+    /** This method sets scene to home.
+     * @param actionEvent Button Click*/
     public void OnActionCancel(ActionEvent actionEvent) throws IOException {
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/CustomerRecordsAppointments.fxml"));

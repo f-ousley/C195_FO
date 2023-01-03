@@ -6,7 +6,9 @@ public class User {
     private String password;
 
     /** This method is a User constructor.
-     @param user_ID primary key for database*/
+     @param user_ID primary key for database
+     @param password String
+     @param username String*/
     public User(int user_ID, String username, String password) {
         this.user_ID = user_ID;
         this.username = username;
@@ -18,7 +20,8 @@ public class User {
         username = null;
         password = null;
     }
-    /** This method is a getter for User user_id.*/
+    /** This method is a getter for User user_id
+     * @return user_ID.*/
     public int getUser_ID() {
         return user_ID;
     }
@@ -26,7 +29,8 @@ public class User {
     public void setUser_ID(int user_ID) {
         this.user_ID = user_ID;
     }
-    /** This method is a getter for User username.*/
+    /** This method is a getter for User username
+     * @return username.*/
     public String getUsername() {
         return username;
     }
@@ -34,7 +38,8 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-    /** This method is a getter for User password.*/
+    /** This method is a getter for User password
+     * @return password.*/
     public String getPassword() {
         return password;
     }

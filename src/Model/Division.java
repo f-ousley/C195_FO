@@ -24,7 +24,8 @@ public class Division {
         Country_ID = country_ID;
     }
     public Division(){}
-    /** This method is a getter for Division division_id.*/
+    /** This method is a getter for Division division_id
+     * @return Division_ID.*/
     public int getDivision_ID() {
         return Division_ID;
     }
@@ -32,7 +33,8 @@ public class Division {
     public void setDivision_ID(int division_ID) {
         Division_ID = division_ID;
     }
-    /** This method is a getter for Division division.*/
+    /** This method is a getter for Division division
+     * @return Division.*/
     public String getDivision() {
         return Division;
     }
@@ -40,7 +42,8 @@ public class Division {
     public void setDivision(String division) {
         Division = division;
     }
-    /** This method is a getter for Division create_date.*/
+    /** This method is a getter for Division create_date
+     * @return Create_Date.*/
     public Timestamp getCreate_Date() {
         return Create_Date;
     }
@@ -48,7 +51,8 @@ public class Division {
     public void setCreate_Date(Timestamp create_Date) {
         Create_Date = create_Date;
     }
-    /** This method is a getter for Division created_by.*/
+    /** This method is a getter for Division created_by
+     * @return Created_By.*/
     public String getCreated_By() {
         return Created_By;
     }
@@ -56,7 +60,8 @@ public class Division {
     public void setCreated_By(String created_By) {
         Created_By = created_By;
     }
-    /** This method is a getter for Division last_update.*/
+    /** This method is a getter for Division last_update
+     * @return Last_Update.*/
     public Timestamp getLast_Update() {
         return Last_Update;
     }
@@ -64,7 +69,8 @@ public class Division {
     public void setLast_Update(Timestamp last_Update) {
         Last_Update = last_Update;
     }
-    /** This method is a getter for Division last_update_by.*/
+    /** This method is a getter for Division last_updated_by.
+     * @return Last_Updated_By*/
     public String getLast_Updated_By() {
         return Last_Updated_By;
     }
@@ -72,7 +78,8 @@ public class Division {
     public void setLast_Updated_By(String last_Updated_By) {
         Last_Updated_By = last_Updated_By;
     }
-    /** This method is a getter for Division country_id.*/
+    /** This method is a getter for Division country_id
+     * @return Country_ID.*/
     public int getCountry_ID() {
         return Country_ID;
     }

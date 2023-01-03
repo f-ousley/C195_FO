@@ -43,6 +43,7 @@ public class LoginController implements Initializable {
     public TextField PasswordField;
 
     @Override
+    /** This method initializes text in the scene.*/
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ZoneId  zoneId = ZoneId.systemDefault();
         LoginRegionLabel.setText(zoneId.toString());
@@ -51,7 +52,8 @@ public class LoginController implements Initializable {
         LoginButton.setText(Main.resourceBundle.getString("Login"));
 
     }
-
+    /** This method checks username/password combination and loads the home scene.
+     * @param actionEvent Button Click*/
     public void OnActionLogin(javafx.event.ActionEvent actionEvent) throws IOException, SQLException {
 
         String password;
@@ -93,7 +95,9 @@ public class LoginController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.show();
     }
-
+    /** This method initializes UID (user_id) variable from MySQL database.
+     * @param password
+     * @throws SQLException*/
     public int Set_UID(String password) throws SQLException {
         int UID = 0;
         PreparedStatement statement =JDBC.connection.prepareStatement("Select USER_ID FROM USERS WHERE PASSWORD = ?");
@@ -104,9 +108,11 @@ public class LoginController implements Initializable {
         }
         return UID;
     }
-
+    /** This method creates a User object.
+     * @param password
+     * @param username
+     * @param user_ID */
     public void StoreUser(int user_ID, String username, String password) {
         user = new User(user_ID, username, password);
-        System.out.println(user);
     }
 }

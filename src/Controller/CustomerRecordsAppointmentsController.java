@@ -83,6 +83,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
 
 
     @Override
+    /** This method initializes text in the scene**/
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         MonthWeekTG = new ToggleGroup();
@@ -168,11 +169,11 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         AppointmentMonthRadio.setText(Main.resourceBundle.getString("Month"));
         AppointmentWeekRadio.setText(Main.resourceBundle.getString("Week"));
     }
-
+    /** This method retrieves Customer data from MySQL database.
+     * @return ObservableList</Customer>*/
     public static ObservableList<Customer> getDataCustomers() {
 
         ObservableList<Customer> observableList = FXCollections.observableArrayList();
-        ObservableList<Customer> custlist = FXCollections.observableArrayList();
         PreparedStatement preparedStatement;
         try {
             preparedStatement = JDBC.connection.prepareStatement("SELECT * FROM customers JOIN first_level_divisions ON customers.Division_ID =  first_level_divisions.Division_ID JOIN countries ON first_level_divisions.Country_ID = countries.Country_ID");
@@ -189,6 +190,8 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         }
         return  observableList;
     }
+    /** This method retrieves Appointment data from MySQL database.
+     * @return ObservableList</Appointment>*/
     public static ObservableList<Appointment> getDataAppointments(User user) {
 
         LocalDate datenow = LocalDate.now();
@@ -240,6 +243,8 @@ public class CustomerRecordsAppointmentsController implements Initializable {
             return observableList;
         }
     }
+    /** This method loads the AddCustomer scene.
+     * @param actionEvent Button Click*/
     public void OnActionAddCustomer(ActionEvent actionEvent) throws IOException {
 
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -248,7 +253,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage.setTitle(Main.resourceBundle.getString("Add") + " " + Main.resourceBundle.getString("Customer"));
         stage.show();
     }
-
+    /** This method creates a new Customer object and loads the UpdateCustomer scene.
+     * @throws IOException
+     * @param actionEvent Button Click*/
     public void OnActionUpdateCustomer(ActionEvent actionEvent) throws IOException {
 
         customer = new Customer();
@@ -270,7 +277,8 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage.setTitle(Main.resourceBundle.getString("Update" ) + " " + Main.resourceBundle.getString("Customer"));
         stage.show();
     }
-
+    /** This method loads the AddAppointment scene.
+     * @param actionEvent Button Click*/
     public void OnActionAddAppointment(ActionEvent actionEvent) throws IOException {
 
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -280,7 +288,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage.show();
 
     }
-
+    /** This method creates an Appoinment object and loads the UpdateAppointment scene.
+     * @throws IOException
+     * @param actionEvent Button Click*/
     public void OnActionUpdateAppointment(ActionEvent actionEvent) throws IOException {
 
         appointment = new Appointment();
@@ -305,7 +315,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage.show();
 
     }
-
+    /** This method deletes an Appointment from the MySQL database.
+     * @throws SQLException
+     * @param actionEvent Button Click*/
     public void OnActionDeleteAppointment(ActionEvent actionEvent) throws SQLException {
         int appt;
         appt = AppointmentsTableView.getSelectionModel().getSelectedItem().getAppointment_ID();
@@ -315,7 +327,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         boolean result = preparedStatement.execute();
         AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
     }
-
+    /** This method deletes a Customer from the MySQL database.
+     * @throws SQLException
+     * @param actionEvent Button Click*/
     public void OnActionDeleteCustomer(ActionEvent actionEvent) throws SQLException {
         int cust;
         cust = CustomerTableView.getSelectionModel().getSelectedItem().getCustomer_ID();
@@ -324,9 +338,9 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         System.out.println(preparedStatement);
         boolean result = preparedStatement.execute();
         CustomerTableView.setItems(getDataCustomers());
-
-
     }
+    /** This method checks for upcoming appointments alert trigger.
+     * @param appts ObservableList</Appointment>*/
     public static void checkMinuteWarning(ObservableList<Appointment> appts) {
         for (Appointment apt : appts) {
             if (apt.getStart().toLocalDateTime().isAfter(LocalDateTime.now()) && apt.getStart().toLocalDateTime().isBefore(LocalDateTime.now().plusMinutes(15))) {
@@ -347,26 +361,33 @@ public class CustomerRecordsAppointmentsController implements Initializable {
             AI.show_alert(alert);
         }
     }
-
-    public void CustomerTableOnMouseClicked(MouseEvent mouseEvent) {
-    }
-
+    /** This method selects Monthly toggle for Appointments.
+     * @param actionEvent Toggle*/
     public void OnActionMonthly(ActionEvent actionEvent) {
         isMonthly = true;
         isWeekly = false;
         isAll = false;
         AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
-
-
     }
-
+    /** This method selects Weekly toggle for Appointments.
+     * @param actionEvent Toggle*/
     public void OnActionWeekly(ActionEvent actionEvent) {
         isWeekly = true;
         isMonthly = false;
         isAll = true;
         AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
     }
-
+    /** This method selects All toggle for Appointments.
+     * @param actionEvent Toggle*/
+    public void OnActionAll(ActionEvent actionEvent) {
+        isAll = true;
+        isWeekly = false;
+        isMonthly = false;
+        AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
+    }
+    /** This method loads the Records scene.
+     * @throws IOException
+     * @param actionEvent Button Click*/
     public void OnActionRecords(ActionEvent actionEvent) throws IOException {
         stage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/Records.fxml"));
@@ -375,10 +396,4 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage.show();
     }
 
-    public void OnActionAll(ActionEvent actionEvent) {
-        isAll = true;
-        isWeekly = false;
-        isMonthly = false;
-        AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
-    }
 }

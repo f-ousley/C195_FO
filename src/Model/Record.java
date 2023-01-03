@@ -6,7 +6,10 @@ public class Record {
     private int Number;
     private String Customer_Name;
 
-    /** This method is a constructor for Record.*/
+    /** This method is a constructor for Record
+     * @param type
+     * @param month
+     * @param number .*/
     public Record(String month, String type, int number) {
         Month = month;
         Type = type;
@@ -17,7 +20,8 @@ public class Record {
         Number = number;
 
     }
-    /** This method is a getter for Record month.*/
+    /** This method is a getter for Record month
+     * @return Month.*/
     public String getMonth() {
         return Month;
     }
@@ -25,7 +29,8 @@ public class Record {
     public void setMonth(String month) {
         Month = month;
     }
-    /** This method is a getter for Record type.*/
+    /** This method is a getter for Record type
+     * @return Type.*/
     public String getType() {
         return Type;
     }
@@ -33,7 +38,8 @@ public class Record {
     public void setType(String type) {
         Type = type;
     }
-    /** This method is a getter for Record number.*/
+    /** This method is a getter for Record number
+     * @return Number.*/
     public int getNumber() {
         return Number;
     }
@@ -41,7 +47,8 @@ public class Record {
     public void setNumber(int number) {
         Number = number;
     }
-    /** This method is a getter for Record customer_name.*/
+    /** This method is a getter for Record customer_name
+     * @return Customer_Name.*/
     public String getCustomer_Name() {
         return Customer_Name;
     }

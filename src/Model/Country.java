@@ -46,7 +46,8 @@ public class Country {
     public void setCountry(String country) {
         Country = country;
     }
-    /** This method is a getter for Country create_date.*/
+    /** This method is a getter for Country create_date
+     * @return Create_Date.*/
     public Timestamp getCreate_Date() {
         return Create_Date;
     }
@@ -54,7 +55,8 @@ public class Country {
     public void setCreate_Date(Timestamp create_Date) {
         Create_Date = create_Date;
     }
-    /** This method is a getter for Country created_by.*/
+    /** This method is a getter for Country created_by
+     * @return Created_By.*/
     public String getCreated_By() {
         return Created_By;
     }
@@ -62,7 +64,8 @@ public class Country {
     public void setCreated_By(String created_By) {
         Created_By = created_By;
     }
-    /** This method is a getter for Country last_update.*/
+    /** This method is a getter for Country last_update
+     * @return Last_Update.*/
     public Timestamp getLast_Update() {
         return Last_Update;
     }
@@ -70,7 +73,8 @@ public class Country {
     public void setLast_Update(Timestamp last_Update) {
         Last_Update = last_Update;
     }
-    /** This method is a getter for Country updated_by.*/
+    /** This method is a getter for Country updated_by
+     * @return Last_Updated_By.*/
     public String getLast_Updated_By() {
         return Last_Updated_By;
     }

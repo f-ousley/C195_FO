@@ -93,6 +93,7 @@ public class LoginController implements Initializable {
         stage = (Stage) ((Button) (actionEvent.getSource())).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));
         stage.setScene(new Scene(scene));
+        stage.setTitle("");
         stage.show();
     }
     /** This method initializes UID (user_id) variable from MySQL database.

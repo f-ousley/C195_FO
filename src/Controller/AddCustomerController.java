@@ -3,6 +3,7 @@ package Controller;
 import DBHelper.JDBC;
 import FO_program.Main;
 import Model.Customer;
+import Model.NavigationLambda;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,7 +37,13 @@ public class AddCustomerController implements Initializable {
 
     public Customer customer = new Customer();
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
+    /** I implemented this lambda to streamline repeating code.*/
+    NavigationLambda navigationLambda = () ->{
+        scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.setTitle("");
+        stage.show();
+    };
     public Label IDLabel;
     public Label NameLabel;
     public Label AddressLabel;
@@ -55,6 +62,7 @@ public class AddCustomerController implements Initializable {
 
 
     @Override
+    /** This method initializes the text in the scene.*/
     public void initialize(URL url, ResourceBundle resourceBundle) {
         IDTextField.setEditable(false);
         try {
@@ -74,7 +82,9 @@ public class AddCustomerController implements Initializable {
 
 
     }
-
+    /** This method gets country strings from MySQL database.
+     * @throws SQLException
+     * @return ObservableList</String> countryList*/
     public ObservableList<String> getCountryList() throws SQLException {
         ObservableList<String> countryList = FXCollections.observableArrayList();
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT Country FROM Countries");
@@ -86,7 +96,9 @@ public class AddCustomerController implements Initializable {
         return countryList;
     }
 
-
+    /** This method creates a list of Divisions from MySQL database.
+     * @throws SQLException
+     * @param country int*/
     public void getDivisionList(int country) throws SQLException {
         ObservableList<String> divisions =  FXCollections.observableArrayList();
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("select Division FROM first_level_divisions where Country_ID = ? ");
@@ -99,22 +111,27 @@ public class AddCustomerController implements Initializable {
         setDivisionCombo(divisions);
     }
 
-
+    /** This method sets DivisionCombo combobox with values.
+     * @param divisionlist ObservableList</String>*/
     public void setDivisionCombo(ObservableList<String> divisionlist){
         DivisionCombo.setItems(divisionlist);
-        System.out.println(divisionlist);
     }
 
-
+    /** This method sets customer country from selection and calls getDivisionList method.
+     * @throws SQLException
+     * @param actionEvent Selection*/
     public void OnActionCountry(ActionEvent actionEvent) throws SQLException {
         String country = String.valueOf(CountryCombo.getSelectionModel().getSelectedItem());
         customer.setCountry(country);
-        if (country.equals("U.S")){getDivisionList(1);System.out.println("USA");}
+        if (country.equals("U.S")){getDivisionList(1);}
         if (country.equals("UK")){getDivisionList(2);}
         if (country.equals("Canada")){getDivisionList(3);}
     }
 
-
+    /** This method updates MySQL database Customer table and loads home scene.
+     * @throws IOException
+     * @throws SQLException
+     * @param actionEvent Button Click*/
     public void OnActionAdd(ActionEvent actionEvent) throws SQLException, IOException {
 
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("INSERT INTO CUSTOMERS (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By," +
@@ -131,13 +148,13 @@ public class AddCustomerController implements Initializable {
         System.out.println(preparedStatement);
         int resultSet =  preparedStatement.executeUpdate();
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.setTitle("Appointments");
-        stage.show();
+        navigationLambda.loadhome();
     }
 
-
+    /** This method returns Division_ID from MySQL database.
+     * @throws SQLException
+     * @param division String
+     * @return Division_ID int*/
     public int getDivisionID(String division) throws SQLException {
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT Division_ID FROM First_Level_Divisions WHERE Division = ?");
         preparedStatement.setString(1, customer.getDivision());
@@ -148,18 +165,16 @@ public class AddCustomerController implements Initializable {
         return customer.getDivision_ID();
     }
 
-
+    /** This method sets customer object division from DivisionCombo combobox selection.
+     * @param actionEvent Selection*/
     public void OnActionDivision(ActionEvent actionEvent) {
         customer.setDivision(DivisionCombo.getSelectionModel().getSelectedItem().toString());
     }
 
-
+    /** This method loads the home screen scene.
+     * @param actionEvent Button Click*/
     public void OnActionCancelCustomer(ActionEvent actionEvent) throws IOException {
-
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View/CustomerRecordsAppointments.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.setTitle("");
-        stage.show();
+        navigationLambda.loadhome();
     }
 }

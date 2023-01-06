@@ -288,7 +288,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         stage.show();
 
     }
-    /** This method creates an Appoinment object and loads the UpdateAppointment scene.
+    /** This method creates an Appointment object and loads the UpdateAppointment scene.
      * @throws IOException
      * @param actionEvent Button Click*/
     public void OnActionUpdateAppointment(ActionEvent actionEvent) throws IOException {
@@ -331,15 +331,15 @@ public class CustomerRecordsAppointmentsController implements Initializable {
      * @throws SQLException
      * @param actionEvent Button Click*/
     public void OnActionDeleteCustomer(ActionEvent actionEvent) throws SQLException {
-        int cust;
-        cust = CustomerTableView.getSelectionModel().getSelectedItem().getCustomer_ID();
+        int cust_id;
+        cust_id = CustomerTableView.getSelectionModel().getSelectedItem().getCustomer_ID();
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("DELETE FROM CUSTOMERS WHERE Customer_ID = ?");
-        preparedStatement.setInt(1, cust);
+        preparedStatement.setInt(1, cust_id);
         System.out.println(preparedStatement);
         boolean result = preparedStatement.execute();
         CustomerTableView.setItems(getDataCustomers());
     }
-    /** This method checks for upcoming appointments alert trigger.
+    /** This method checks for upcoming appointments alert trigger. This lambda was implemented to simplify the code.
      * @param appts ObservableList</Appointment>*/
     public static void checkMinuteWarning(ObservableList<Appointment> appts) {
         for (Appointment apt : appts) {
@@ -357,17 +357,21 @@ public class CustomerRecordsAppointmentsController implements Initializable {
             alert.setTitle(Main.resourceBundle.getString("alert1title"));
             alert.setContentText(Main.resourceBundle.getString("alert1text"));
             alert.setHeaderText(Main.resourceBundle.getString("alert1header"));
-            AlertInterface AI = a -> a.showAndWait();
-            AI.show_alert(alert);
+            alert.showAndWait();
         }
     }
+    /**This lambda was implemented to simplify code where using the same functions repeatedly.*/
+    UserAppointmentsLambda getUserAppointments = () -> getDataAppointments(LoginController.user);
+
     /** This method selects Monthly toggle for Appointments.
      * @param actionEvent Toggle*/
     public void OnActionMonthly(ActionEvent actionEvent) {
-        isMonthly = true;
-        isWeekly = false;
-        isAll = false;
-        AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
+            isMonthly = true;
+            isWeekly = false;
+            isAll = false;
+
+        AppointmentsTableView.setItems(getUserAppointments.dothis());
+
     }
     /** This method selects Weekly toggle for Appointments.
      * @param actionEvent Toggle*/
@@ -375,7 +379,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         isWeekly = true;
         isMonthly = false;
         isAll = true;
-        AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
+        AppointmentsTableView.setItems(getUserAppointments.dothis());
     }
     /** This method selects All toggle for Appointments.
      * @param actionEvent Toggle*/
@@ -383,7 +387,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         isAll = true;
         isWeekly = false;
         isMonthly = false;
-        AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
+        AppointmentsTableView.setItems(getUserAppointments.dothis());
     }
     /** This method loads the Records scene.
      * @throws IOException

@@ -77,6 +77,7 @@ public class AddAppointmentController implements Initializable {
 
 
     @Override
+    /** This method initializes the text in the scene.*/
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         User user = LoginController.user;
@@ -116,6 +117,11 @@ public class AddAppointmentController implements Initializable {
             throwables.printStackTrace();
         }
     }
+    /** This method checks for appointment overlap error.
+     * @throws SQLException
+     * @param isError Boolean
+     * @param appointment_start Timestamp
+     * @param appointment_end Timestamp*/
     public static boolean checkOverlap(Timestamp appointment_start, Timestamp appointment_end, boolean isError) throws SQLException  {
 
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT * FROM Appointments");
@@ -127,12 +133,14 @@ public class AddAppointmentController implements Initializable {
                 isError = false;
             } else{
                 isError = true;
+                break;
             }
 
             }
     return isError;
     }
-
+    /** This method checks outside office hours error.
+     * @param t LocalTime*/
     public static void checkTime(LocalTime t){
         if(t.isBefore(LocalTime.of(8,00)) || t.isAfter(LocalTime.of(22,00))){
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -144,9 +152,11 @@ public class AddAppointmentController implements Initializable {
         }
 
     }
+    /** This method adds an Appointment to MySQL database.
+     * @throws SQLException
+     * @throws IOException
+     * @param actionEvent Button Click*/
     public void OnActionAdd(ActionEvent actionEvent) throws SQLException, IOException {
-
-        LocalDate localDate = LocalDate.now();
 
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement( "INSERT INTO APPOINTMENTS (title, description, location, type, start, end, create_date, created_by,last_update, last_updated_by, customer_id, user_id, contact_id)"
         + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -173,7 +183,9 @@ public class AddAppointmentController implements Initializable {
         stage.setTitle("Appointments");
         stage.show();
     }
-
+    /** This method loads the home scene.
+     * @throws IOException
+     * @param actionEvent Button Click*/
     public void OnActionCancel(ActionEvent actionEvent) throws IOException {
 
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();
@@ -183,10 +195,11 @@ public class AddAppointmentController implements Initializable {
         stage.show();
 
     }
-
+    /** This method fills the start and end combobox with LocalTime values.
+     * @return ObservableList</LocalTime>*/
     private ObservableList<LocalTime> fill_start_end_combo(){
 
-        LocalTime localTime = LocalTime.of(1,0,0);
+        LocalTime localTime = LocalTime.of(0,0,0);
         while(localTime != LocalTime.of(23,0,0) ) {
             localTime = localTime.plusMinutes(15);
             startList.add(LocalTime.parse(localTime.format(dateTimeFormatter)));
@@ -194,6 +207,9 @@ public class AddAppointmentController implements Initializable {
         }
         return startList;
     }
+    /** This method fills the contact combobox with Contact_ID values from MySQL database.
+     * @throws SQLException
+     * @return ObservableList</String>*/
     private ObservableList<String> fill_contact_Combo() throws SQLException {
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT Contact_ID FROM CONTACTS");
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -202,6 +218,9 @@ public class AddAppointmentController implements Initializable {
         }
         return contactList;
     }
+    /** This method fills the customer combobox with Customer_ID from the MySQL database.
+     * @throws SQLException
+     * @return ObservableList</Integer>*/
     private ObservableList<Integer> fill_customer_combo() throws SQLException {
 
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT CUSTOMER_ID FROM CUSTOMERS");
@@ -212,12 +231,15 @@ public class AddAppointmentController implements Initializable {
         }
     return custList;
     }
-
+    /** This method calls the checkTime method when a start_time is selected.
+     * @param actionEvent Selection*/
     public void OnActionStartTime(ActionEvent actionEvent){
         checkTime(ComboStartTime.getValue());
 
     }
-
+    /** This method calls the checkOverlap method when an end_date is selected and enables AddAppointmentButton.
+     * @throws SQLException
+     * @param actionEvent Selection*/
     public void OnActionEndDate(ActionEvent actionEvent) throws SQLException {
             boolean isError = false;
             Timestamp appointment_start = Timestamp.valueOf(LocalDateTime.of(StartDate.getValue(), ComboStartTime.getValue()));

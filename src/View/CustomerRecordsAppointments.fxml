@@ -21,7 +21,7 @@
             <Button fx:id="RecordsButton" mnemonicParsing="false" onAction="#OnActionRecords" prefHeight="25.0" prefWidth="68.0" text="Records" />
          </children>
       </HBox>
-      <TableView fx:id="CustomerTableView" layoutX="14.0" layoutY="56.0" onMouseClicked="#CustomerTableOnMouseClicked" prefHeight="123.0" prefWidth="979.0">
+      <TableView fx:id="CustomerTableView" layoutX="14.0" layoutY="56.0" prefHeight="123.0" prefWidth="979.0">
         <columns>
           <TableColumn fx:id="CustomerIDColumn" prefWidth="75.0" text="Customer ID" />
           <TableColumn fx:id="CustomerNameColumn" prefWidth="75.0" text="Name" />

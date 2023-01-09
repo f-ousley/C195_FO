@@ -8,4 +8,8 @@ Javafx SDK 17.0.1
 JDK 11.0.11
 Mysql Connector Java-8.0.25
 
-Download the source files and run the main program. Username = admin Password = admin
+The additional report included groups total meetings by contact
+
+Download the source files and run the main program. Username = admin || test Password = admin || test
+
+When adding or updating a customer Country must be selected before state/province.

@@ -51,7 +51,7 @@ public class UpdateCustomerController implements Initializable {
     @Override
     /** This method initializes text in the scene.*/
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        UpdateButton.setDisable(true);
         IDLabel.setText(Main.resourceBundle.getString("ID"));
         NameLabel.setText(Main.resourceBundle.getString("Name"));
         AddressLabel.setText(Main.resourceBundle.getString("Address"));
@@ -170,5 +170,6 @@ public class UpdateCustomerController implements Initializable {
         }
 
         CustomerRecordsAppointmentsController.customer.setDivision(DivisionCombo.getSelectionModel().getSelectedItem().toString());
+        UpdateButton.setDisable(false);
     }
 }

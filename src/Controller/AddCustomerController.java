@@ -128,7 +128,7 @@ public class AddCustomerController implements Initializable {
         if (country.equals("Canada")){getDivisionList(3);}
     }
 
-    /** This method updates MySQL database Customer table and loads home scene.
+    /** This method updates MySQL database Customer table and loads home scene. The use of navigationLambda simplifies writing repeating code.
      * @throws IOException
      * @throws SQLException
      * @param actionEvent Button Click*/
@@ -171,7 +171,7 @@ public class AddCustomerController implements Initializable {
         customer.setDivision(DivisionCombo.getSelectionModel().getSelectedItem().toString());
     }
 
-    /** This method loads the home screen scene.
+    /** This method loads the home screen scene. The use of navigationLambda simplifies writing repeating code.
      * @param actionEvent Button Click*/
     public void OnActionCancelCustomer(ActionEvent actionEvent) throws IOException {
         stage = (Stage)((Button)(actionEvent.getSource())).getScene().getWindow();

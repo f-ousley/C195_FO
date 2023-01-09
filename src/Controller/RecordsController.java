@@ -11,10 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -26,6 +23,9 @@ import java.util.ResourceBundle;
 /** This class creates records for rubric requirement.*/
 public class RecordsController implements Initializable {
 
+    public ComboBox MonthComboBox;
+    public ComboBox TypeComboBox;
+    public Label TotalLabel;
     Stage stage;
     Parent scene;
 
@@ -62,10 +62,6 @@ public class RecordsController implements Initializable {
         ContactEndColumn.setCellValueFactory(new PropertyValueFactory<>("End"));
         ContactCustomerColumn.setCellValueFactory(new PropertyValueFactory<>("Customer_ID"));
 
-        TypeMonthColumn.setCellValueFactory(new PropertyValueFactory<>("Month"));
-        TypeColumn.setCellValueFactory(new PropertyValueFactory<>("Type"));
-        TypeTotalColumn.setCellValueFactory(new PropertyValueFactory<>("Number"));
-
         CustomNameColumn.setCellValueFactory(new PropertyValueFactory<>("Customer_Name"));
         CustomTotalColumn.setCellValueFactory(new PropertyValueFactory<>("Number"));
 
@@ -79,13 +75,9 @@ public class RecordsController implements Initializable {
         ContactEndColumn.setText(Main.resourceBundle.getString("EndTime"));
         ContactCustomerColumn.setText(Main.resourceBundle.getString("Customer"));
 
-        TypeMonthColumn.setText(Main.resourceBundle.getString("Month"));
-        TypeColumn.setText(Main.resourceBundle.getString("Type"));
-        TypeTotalColumn.setText(Main.resourceBundle.getString("Total"));
 
         try {
-            setContactCombo();
-            setTypeTable();
+            setCombo();
             setRecordTable();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -105,27 +97,39 @@ public class RecordsController implements Initializable {
     }
     /** This method sets the Type TableView.
      * @throws SQLException*/
-    public void setTypeTable() throws SQLException {
-        ObservableList typelist = FXCollections.observableArrayList();
-        PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT MONTHNAME(Start) AS Month, appointments.Type, count(*) AS Number from appointments\n" +
-                "GROUP BY Start, appointments.Type");
+    public void setTypeNumber() throws SQLException {
+        PreparedStatement preparedStatement = JDBC.connection.prepareStatement("SELECT Count(*) AS Total from Appointments where ? = MONTHNAME(Start) AND Type = ?");
+        preparedStatement.setString(1, MonthComboBox.getValue().toString());
+        preparedStatement.setString(2, TypeComboBox.getValue().toString());
         ResultSet resultSet = preparedStatement.executeQuery();
+        System.out.println(preparedStatement);
+        int total = 1;
         while(resultSet.next()){
-            typelist.add(new Record(resultSet.getString("Month"), resultSet.getString("Type"), resultSet.getInt("Number")));
+            total = resultSet.getInt("Total");
+
         }
-        TypeTableView.setItems(typelist);
+        TotalLabel.setText(String.valueOf(total));
     }
     /** This method sets the contact combobox with Contact_Name from MySQL database.
      * @throws SQLException*/
-    public void setContactCombo() throws SQLException {
+    public void setCombo() throws SQLException {
         ObservableList<String> contact_names = FXCollections.observableArrayList();
+        ObservableList<String> month_names = FXCollections.observableArrayList();
+        ObservableList<String> meeting_type_names = FXCollections.observableArrayList();
+        month_names.addAll("January","February","March","April","May","June","July","August","September","October", "November","December");
+        MonthComboBox.setItems(month_names);
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("Select Distinct Contact_Name From Contacts");
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()) {
             contact_names.add(resultSet.getString("Contact_Name"));
         }
         ContactCombo.setItems(contact_names);
-
+        PreparedStatement preparedStatement1 = JDBC.connection.prepareStatement("Select Type from Appointments");
+        ResultSet resultSet1 = preparedStatement1.executeQuery();
+        while(resultSet1.next()){
+            meeting_type_names.add(resultSet1.getString("Type"));
+        }
+        TypeComboBox.setItems(meeting_type_names);
     }
     /** This method fills Contact TableView with contacts from MySQL database.
      * @throws SQLException
@@ -153,5 +157,9 @@ public class RecordsController implements Initializable {
         stage.setScene(new Scene(scene));
         stage.setTitle("");
         stage.show();
+    }
+
+    public void OnActionType(ActionEvent actionEvent) throws SQLException {
+        setTypeNumber();
     }
 }

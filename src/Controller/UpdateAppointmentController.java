@@ -167,8 +167,8 @@ public class UpdateAppointmentController implements Initializable {
     /** This method fills start and end comboboxes with LocalTime values.
      * @return ObservableList</LocalTime>*/
     private ObservableList<LocalTime> fill_start_end_combo(){
-        LocalTime localTime = LocalTime.of(0,0,0);
-        while(localTime != LocalTime.of(23,0,0) ) {
+        LocalTime localTime = LocalTime.of(8,0,0);
+        while(localTime != LocalTime.of(22,0,0) ) {
             localTime = localTime.plusMinutes(15);
             startList.add(localTime);
             endList.add(localTime);

@@ -80,9 +80,9 @@ public class LoginController implements Initializable {
         }
         if (user == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Wrong Password or Username");
-            alert.setContentText("You have entered an incorrect username password combination");
-            alert.setHeaderText("Error Alert");
+            alert.setTitle(Main.resourceBundle.getString("loginAlertTitle"));
+            alert.setContentText(Main.resourceBundle.getString("loginAlertText"));
+            alert.setHeaderText(Main.resourceBundle.getString("loginAlertHeader"));
             alert.showAndWait();
             File file = new File("src/Login_activity.txt");
             FileWriter fileWriter = new FileWriter(file, true);

@@ -320,11 +320,17 @@ public class CustomerRecordsAppointmentsController implements Initializable {
      * @param actionEvent Button Click*/
     public void OnActionDeleteAppointment(ActionEvent actionEvent) throws SQLException {
         int appt;
+        String title;
         appt = AppointmentsTableView.getSelectionModel().getSelectedItem().getAppointment_ID();
+        title = AppointmentsTableView.getSelectionModel().getSelectedItem().getTitle();
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement( "DELETE FROM Appointments WHERE Appointment_ID = ?");
         preparedStatement.setInt(1, appt);
-        System.out.println(preparedStatement);
         boolean result = preparedStatement.execute();
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(Main.resourceBundle.getString("deleteAppointmentAlertHeader"));
+        alert.setTitle(Main.resourceBundle.getString("deleteAppointmentAlertTitle"));
+        alert.setContentText(Main.resourceBundle.getString("deleteAppointmentAlertText") + " " + appt + " " + title);
+        alert.showAndWait();
         AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
     }
     /** This method deletes a Customer from the MySQL database.
@@ -333,13 +339,16 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     public void OnActionDeleteCustomer(ActionEvent actionEvent) throws SQLException {
         int cust_id;
         cust_id = CustomerTableView.getSelectionModel().getSelectedItem().getCustomer_ID();
+        PreparedStatement ps = JDBC.connection.prepareStatement("DELETE FROM APPOINTMENTS WHERE Customer_ID = ?");
+        ps.setInt(1, cust_id);
+        boolean res = ps.execute();
         PreparedStatement preparedStatement = JDBC.connection.prepareStatement("DELETE FROM CUSTOMERS WHERE Customer_ID = ?");
         preparedStatement.setInt(1, cust_id);
-        System.out.println(preparedStatement);
         boolean result = preparedStatement.execute();
         CustomerTableView.setItems(getDataCustomers());
+        AppointmentsTableView.setItems(getDataAppointments(LoginController.user));
     }
-    /** This method checks for upcoming appointments alert trigger. This lambda was implemented to simplify the code.
+    /** This method checks for upcoming appointments alert trigger. This lambda was implemented to simplify the code for repeating function calls.
      * @param appts ObservableList</Appointment>*/
     public static void checkMinuteWarning(ObservableList<Appointment> appts) {
         for (Appointment apt : appts) {
@@ -363,7 +372,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
     /**This lambda was implemented to simplify code where using the same functions repeatedly.*/
     UserAppointmentsLambda getUserAppointments = () -> getDataAppointments(LoginController.user);
 
-    /** This method selects Monthly toggle for Appointments.
+    /** This method selects Monthly toggle for Appointments. This lambda was implemented to simplify code where using the same functions repeatedly.
      * @param actionEvent Toggle*/
     public void OnActionMonthly(ActionEvent actionEvent) {
             isMonthly = true;
@@ -373,7 +382,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         AppointmentsTableView.setItems(getUserAppointments.dothis());
 
     }
-    /** This method selects Weekly toggle for Appointments.
+    /** This method selects Weekly toggle for Appointments. This lambda was implemented to simplify code where using the same functions repeatedly.
      * @param actionEvent Toggle*/
     public void OnActionWeekly(ActionEvent actionEvent) {
         isWeekly = true;
@@ -381,7 +390,7 @@ public class CustomerRecordsAppointmentsController implements Initializable {
         isAll = true;
         AppointmentsTableView.setItems(getUserAppointments.dothis());
     }
-    /** This method selects All toggle for Appointments.
+    /** This method selects All toggle for Appointments. This lambda was implemented to simplify code where using the same functions repeatedly.
      * @param actionEvent Toggle*/
     public void OnActionAll(ActionEvent actionEvent) {
         isAll = true;
